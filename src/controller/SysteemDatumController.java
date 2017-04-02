@@ -10,6 +10,7 @@ import server.Conversation;
 import server.Handler;
 
 public class SysteemDatumController implements Handler {
+	private PrIS informatieSysteem;
 	
 	/**
 	 * De SysteemDatumController klasse moet alle systeem (en test)-gerelateerde aanvragen
@@ -20,6 +21,7 @@ public class SysteemDatumController implements Handler {
 	 * @param infoSys - het toegangspunt tot het domeinmodel
 	 */
 	public SysteemDatumController(PrIS infoSys) {
+		informatieSysteem = infoSys;
 	}
 
 	public void handle(Conversation conversation) {
