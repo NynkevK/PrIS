@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import model.klas.Klas;
 import model.persoon.Docent;
 import model.persoon.Student;
+import model.rooster.Rooster;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -20,6 +21,7 @@ public class PrIS {
 	private ArrayList<Docent> deDocenten;
 	private ArrayList<Student> deStudenten;
 	private ArrayList<Klas> deKlassen;
+	private Rooster hetRooster;
 	
 	/**
 	 * De constructor maakt een set met standaard-data aan. Deze data
@@ -147,6 +149,8 @@ public class PrIS {
 		
 		return lGevondenStudent;
 	}
+	
+	public Rooster getRooster(){ return hetRooster;}
 
 	public String login(String gebruikersnaam, String wachtwoord) {
 		for (Docent d : deDocenten) {

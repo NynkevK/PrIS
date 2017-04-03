@@ -3,7 +3,6 @@ package model.les;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import model.afmelding.Afmelding;
 import model.klas.Klas;
@@ -39,7 +38,7 @@ public class Les {
 		}
 	}
 	public ArrayList<Afmelding> getAfmeldingen(){
-		return new ArrayList<Afmelding>(Collections.unmodifiableList(deAfmeldingen));
+		return deAfmeldingen;
 	}
 	
 	public boolean equals(Object object){
