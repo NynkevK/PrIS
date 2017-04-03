@@ -1,12 +1,12 @@
 package model.afmelding;
 
-import model.persoon.Student;
+import model.persoon.Persoon;
 
 public class Afmelding {
 	private String reden;
-	private Student deAfgemelde;
+	private Persoon deAfgemelde;
 	
-	public Afmelding(String iReden, Student afgemelde){
+	public Afmelding(String iReden, Persoon afgemelde){
 		reden = iReden;
 		deAfgemelde = afgemelde;
 	}
@@ -17,7 +17,7 @@ public class Afmelding {
 	
 	public String getReden(){	return reden;}
 	
-	public Student getAfgemelde(){ return deAfgemelde;}
+	public Persoon getAfgemelde(){ return deAfgemelde;}
 	
 	public boolean equals(Object object){
 		boolean gelijkeObjecten = false;
