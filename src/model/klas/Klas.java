@@ -1,5 +1,4 @@
 package model.klas;
-
 import java.util.ArrayList;
 
 import model.persoon.Student;
@@ -41,5 +40,14 @@ public class Klas {
 			this.getStudenten().add(pStudent);
 		}
 	}
-
+	public boolean equals(Object obj){
+		boolean gelijkenObjecten = false;
+		if  (obj instanceof Klas){
+			Klas andereKlas = (Klas) obj;
+			if (klasCode == andereKlas.klasCode &&  naam == andereKlas.naam && deStudenten == andereKlas.deStudenten){
+				gelijkenObjecten = true;
+			}
+		}
+		return gelijkenObjecten;
+	}
 }
