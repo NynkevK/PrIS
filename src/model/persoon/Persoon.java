@@ -48,4 +48,15 @@ public abstract class Persoon {
 		}
 		return lStatus;
 	}
+	
+	public boolean equals(Object obj){
+		boolean gelijkenObjecten = false;
+		if  (obj instanceof Persoon){
+			Persoon anderePersoon = (Persoon) obj;
+			if (voornaam == anderePersoon.getVoornaam() && getVolledigeAchternaam() == anderePersoon.getVolledigeAchternaam() && wachtwoord == anderePersoon.getWachtwoord() && gebruikersnaam == anderePersoon.getGebruikersnaam() ){		
+				gelijkenObjecten = true;
+			}
+		}
+		return gelijkenObjecten;
+	}
 }
