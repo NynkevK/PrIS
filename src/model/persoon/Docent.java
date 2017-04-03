@@ -1,5 +1,6 @@
 package model.persoon;
 
+
 public class Docent extends Persoon {
 
 	private int docentNummer;
@@ -17,4 +18,14 @@ public class Docent extends Persoon {
 		this.docentNummer = docentNummer;
 	}
 
+	public boolean equals(Object obj){
+		boolean gelijkenObjecten = false;
+		if  (obj instanceof Docent){
+			Docent andereDocent = (Docent) obj;
+			if (docentNummer == andereDocent.docentNummer && super.equals(obj)){		
+				gelijkenObjecten = true;
+			}
+		}
+		return gelijkenObjecten;
+	}
 }

@@ -1,8 +1,9 @@
 //checked
 package model.persoon;
 
-public class Student extends Persoon {
 
+
+public class Student extends Persoon {
 	private int studentNummer;
 	private String groepId;
 
@@ -13,15 +14,15 @@ public class Student extends Persoon {
 		String pWachtwoord, 
 		String pGebruikersnaam,
 		int pStudentNummer) {
-		super(
-			pVoornaam, 
-			pTussenvoegsel, 
-			pAchternaam, 
-			pWachtwoord, 
-			pGebruikersnaam);
-		this.setStudentNummer(pStudentNummer);
-		this.setGroepId("");
-	}
+  		super(
+  			pVoornaam, 
+  			pTussenvoegsel, 
+  			pAchternaam, 
+  			pWachtwoord, 
+  			pGebruikersnaam);
+  		this.setStudentNummer(pStudentNummer);
+  		this.setGroepId("");
+  	}
 
 
  public String getGroepId() {
@@ -38,6 +39,17 @@ public class Student extends Persoon {
 
 	private void setStudentNummer(int pStudentNummer) {
 		this.studentNummer = pStudentNummer;
+	}
+	
+	public boolean equals(Object obj){
+		boolean gelijkenObjecten = false;
+		if  (obj instanceof Student){
+			Student andereStudent = (Student) obj;
+			if (studentNummer == andereStudent.studentNummer &&  groepId == andereStudent.groepId && super.equals(obj)){
+				gelijkenObjecten = true;
+			}
+		}
+		return gelijkenObjecten;
 	}
 	
 }
