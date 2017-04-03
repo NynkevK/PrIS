@@ -50,6 +50,7 @@ public class PrIS {
 		deDocenten = new ArrayList<Docent>();
 		deStudenten = new ArrayList<Student>();
 		deKlassen = new ArrayList<Klas>();
+		hetRooster = new Rooster();
 
 		// Inladen klassen
 		vulKlassen(deKlassen);
