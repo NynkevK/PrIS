@@ -50,6 +50,7 @@ public class PrIS {
 		deDocenten = new ArrayList<Docent>();
 		deStudenten = new ArrayList<Student>();
 		deKlassen = new ArrayList<Klas>();
+		hetRooster = new Rooster();
 
 		// Inladen klassen
 		vulKlassen(deKlassen);
@@ -76,6 +77,7 @@ public class PrIS {
 		}
 		return lCal;
 	}
+	
 	//deze method is static onderdeel van PrIS omdat hij als hulp methode 
 	//in veel controllers gebruikt wordt
 	//een standaardDatumString heeft formaat YYYY-MM-DD

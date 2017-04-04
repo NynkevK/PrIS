@@ -53,7 +53,10 @@ public abstract class Persoon {
 		boolean gelijkenObjecten = false;
 		if  (obj instanceof Persoon){
 			Persoon anderePersoon = (Persoon) obj;
-			if (voornaam == anderePersoon.getVoornaam() && getVolledigeAchternaam() == anderePersoon.getVolledigeAchternaam() && wachtwoord == anderePersoon.getWachtwoord() && gebruikersnaam == anderePersoon.getGebruikersnaam() ){		
+			if (voornaam == anderePersoon.getVoornaam() &&
+					getVolledigeAchternaam() == anderePersoon.getVolledigeAchternaam() &&
+					wachtwoord == anderePersoon.getWachtwoord() &&
+					gebruikersnaam == anderePersoon.getGebruikersnaam() ){		
 				gelijkenObjecten = true;
 			}
 		}

@@ -1,5 +1,7 @@
 package model.rooster;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import model.klas.Klas;
