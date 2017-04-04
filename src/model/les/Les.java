@@ -30,6 +30,20 @@ public class Les {
 		deAfmeldingen = new ArrayList<Afmelding>();
 	}
 	
+	public ArrayList getInfo(){
+		ArrayList infoList = new ArrayList();
+		
+		infoList.add(datum);
+		infoList.add(startTijd);
+		infoList.add(eindTijd);
+		infoList.add(vak);
+		infoList.add(deDocent);
+		infoList.add(locatie);
+		infoList.add(deKlas);
+		
+		return infoList;
+	}
+	
 	public void voegAfmeldingToe(Persoon deAfgemelde, String reden){
 		Afmelding afmelding = new Afmelding(reden, deAfgemelde);
 		

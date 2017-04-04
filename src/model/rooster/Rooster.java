@@ -92,4 +92,17 @@ public class Rooster {
 		}
 		
 	}
+<<<<<<< HEAD
 
+=======
+	
+	public ArrayList<Les> getLessenVanKlas(Klas klas) {
+		
+	}
+	
+	public ArrayList<Les> getLessenVanDocent(Docent docent) {
+		
+	}
+	
+}
+>>>>>>> branch 'master' of https://github.com/NynkevK/PrIS.git
