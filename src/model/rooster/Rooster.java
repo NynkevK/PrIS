@@ -29,7 +29,7 @@ public class Rooster {
 		
 	}
 	
-	public ArrayList<Klas> getLessenVanKlas(Klas klas) {
+	public ArrayList<Les> getLessenVanKlas(Klas klas) {
 		
 	}
 	
