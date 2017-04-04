@@ -87,22 +87,9 @@ public class Rooster {
 			  }
 		
 		public ArrayList<Les> getLessenVanDocent(Docent docent) {
-			// te doen, verwijder null return.
+			// te doen, verwijder null return
 			return null;
 		}
 		
-	}
-<<<<<<< HEAD
-
-=======
-	
-	public ArrayList<Les> getLessenVanKlas(Klas klas) {
-		
-	}
-	
-	public ArrayList<Les> getLessenVanDocent(Docent docent) {
-		
-	}
-	
 }
->>>>>>> branch 'master' of https://github.com/NynkevK/PrIS.git
+
