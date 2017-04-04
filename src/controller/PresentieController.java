@@ -129,8 +129,8 @@ public class PresentieController implements Handler{
 			if(lAfmeldingen_jArray != null){
 				for(int i=0;i<lAfmeldingen_jArray.size();i++){
 					JsonObject lAfmelding_jsonObj = lAfmeldingen_jArray.getJsonObject(i);
-					
-					//calendar object converten naar LocalDate en LocalTime
+					// info verzamelen om de les mee op te vragen
+					// calendar object converten naar LocalDate en LocalTime
 					@SuppressWarnings("static-access")
 					Calendar lDatum_afmeldingInCal = PrIS.standaardDatumStringToCal(lAfmelding_jsonObj.getString("date")).getInstance();
 					LocalDateTime dateTime = LocalDateTime.ofInstant(lDatum_afmeldingInCal.toInstant(), ZoneId.systemDefault());
@@ -139,10 +139,12 @@ public class PresentieController implements Handler{
 					
 					String lLocatie_afmelding = lAfmelding_jsonObj.getString("location");
 					
+					// les ophalen waarvoor afgemeld is
 					Les lLesVan_afmelding = hetRooster.getLes(lDatum_afmeldingInLD, lStartTijd_afmelding, lLocatie_afmelding);
 					
 					String lReden_afmelding = lAfmelding_jsonObj.getString("reason");
 					
+					// afmelding toevoegen aan les
 					lLesVan_afmelding.voegAfmeldingToe(afmeldende, lReden_afmelding);
 				}
 			}
@@ -152,12 +154,14 @@ public class PresentieController implements Handler{
 			if(lAfmeldingen_jArray != null){
 				for(int i=0;i<lAfmeldingen_jArray.size();i++){
 					JsonObject lAfmelding_jsonObj = lAfmeldingen_jArray.getJsonObject(i);
+					// afgemelde als student proberen op te halen
 					Persoon afgemelde = informatieSysteem.getStudent(lAfmelding_jsonObj.getString("username"));
+					// als de afgemelde geen student als docent op halen
 					if(afgemelde == null){
 						afgemelde = informatieSysteem.getDocent(lAfmelding_jsonObj.getString("username"));
 					}
-					
-				//calendar object converten naar LocalDate en LocalTime
+					// info verzamelen om de les mee op te vragen
+					// calendar object converten naar LocalDate en LocalTime
 					@SuppressWarnings("static-access")
 					Calendar lDatum_afmeldingInCal = PrIS.standaardDatumStringToCal(lAfmelding_jsonObj.getString("date")).getInstance();
 					LocalDateTime dateTime = LocalDateTime.ofInstant(lDatum_afmeldingInCal.toInstant(), ZoneId.systemDefault());
@@ -166,10 +170,12 @@ public class PresentieController implements Handler{
 					
 					String lLocatie_afmelding = lAfmelding_jsonObj.getString("location");
 					
+					// les ophalen waarvoor afgemeld is
 					Les lLesVan_afmelding = hetRooster.getLes(lDatum_afmeldingInLD, lStartTijd_afmelding, lLocatie_afmelding);
 					
 					String lReden_afmelding = lAfmelding_jsonObj.getString("reason");
 					
+					// afmelding toevoegen aan les
 					lLesVan_afmelding.voegAfmeldingToe(afgemelde, lReden_afmelding);
 				}
 			}
