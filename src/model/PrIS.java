@@ -77,6 +77,7 @@ public class PrIS {
 		}
 		return lCal;
 	}
+	
 	//deze method is static onderdeel van PrIS omdat hij als hulp methode 
 	//in veel controllers gebruikt wordt
 	//een standaardDatumString heeft formaat YYYY-MM-DD

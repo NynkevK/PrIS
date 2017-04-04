@@ -1,8 +1,11 @@
 package model.rooster;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import model.klas.Klas;
+import model.les.Les;
 import model.persoon.Docent;
 
 public class Rooster {	
@@ -12,8 +15,14 @@ public class Rooster {
 		
 	}
 	
-	public voegLesToe(Les les) {
+	public void voegLesToe(Les les) {
 		
+	}
+	
+	public Les getLes(LocalDate datum, LocalTime startTijd, String locatie){
+		Les resultaat = null;
+		
+		return resultaat;
 	}
 	
 	public ArrayList<Les> getLessen() {
