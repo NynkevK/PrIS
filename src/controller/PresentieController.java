@@ -36,6 +36,8 @@ public class PresentieController implements Handler{
 	public void handle(Conversation conversation){
 		if(conversation.getRequestedURI().startsWith("/presentie/opslaan")){
 			opslaan(conversation);
+		} else if (conversation.getRequestedURI().startsWith("/presentie/ophalen")){
+			ophalen(conversation);
 		}
 	}
 	
