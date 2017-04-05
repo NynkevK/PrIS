@@ -46,8 +46,8 @@ public class Les {
 		return infoList;
 	}
 	
-	public void voegAfmeldingToe(Persoon deAfgemelde, String reden){
-		Afmelding afmelding = new Afmelding(reden, deAfgemelde);
+	public void voegAfmeldingToe(Persoon deAfgemelde, String type){
+		Afmelding afmelding = new Afmelding(type, deAfgemelde);
 		
 		if (!(deAfmeldingen.contains(afmelding))){
 			deAfmeldingen.add(afmelding);
@@ -56,6 +56,18 @@ public class Les {
 			}
 		}
 	}
+	
+	public void voegAfmeldingMetRedeToe(String type, String reden, Persoon afgemelde){
+		Afmelding afmelding = new Afmelding(type, reden, afgemelde);
+		
+		if (!(deAfmeldingen.contains(afmelding))){
+			deAfmeldingen.add(afmelding);
+			if(!(presentieVerwerkt)){
+				presentieVerwerkt = true;
+			}
+		}
+	}
+	
 	public ArrayList<Afmelding> getAfmeldingen(){
 		return deAfmeldingen;
 	}
