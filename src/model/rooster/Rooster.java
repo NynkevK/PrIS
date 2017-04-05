@@ -60,7 +60,7 @@ public class Rooster {
 		  }
 		  
 		public ArrayList<Les> getLessenVanKlas(Klas klas) {
-			String csvBestand = "rooster.csv";
+			  String csvBestand = "rooster.csv";
 			  BufferedReader br = null;
 			  String line = "";
 			  ArrayList<Les> lessenVanKlas = new ArrayList<Les>();
@@ -87,9 +87,32 @@ public class Rooster {
 			  }
 		
 		public ArrayList<Les> getLessenVanDocent(Docent docent) {
-			// te doen, verwijder null return
-			return null;
-		}
+				// 
+			  String csvBestand = "rooster.csv";
+			  BufferedReader br = null;
+			  String line = "";
+			  ArrayList<Les> lessenVanDocent = new ArrayList<Les>();
+			  String docentNummer = docent.getGebruikersnaam();
+			  
+			  try {
+
+			   br = new BufferedReader(new FileReader(csvBestand));
+			   while ((line = br.readLine()) != null) {
+				   String[] les = line.split(",");
+				   
+				   if (les[4].equals(docentNummer)) {
+					   Les lesObject = parseObjectFromString(line, Les.class);
+					   lessenVanDocent.add(lesObject);
+				   }
+			    } 
+
+			   } catch (IOException e) {
+				e.printStackTrace();
+			   } catch (Exception e) {
+				e.printStackTrace();
+			   }
+			  return lessenVanDocent;
+			  }
 		
-}
+		}
 
