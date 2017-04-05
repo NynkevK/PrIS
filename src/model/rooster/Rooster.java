@@ -95,7 +95,6 @@ public class Rooster {
 			  String docentNummer = docent.getGebruikersnaam();
 			  
 			  try {
-
 			   br = new BufferedReader(new FileReader(csvBestand));
 			   while ((line = br.readLine()) != null) {
 				   String[] les = line.split(",");
