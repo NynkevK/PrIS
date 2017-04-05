@@ -3,12 +3,18 @@ package model.afmelding;
 import model.persoon.Persoon;
 
 public class Afmelding {
+	private String type;
 	private String reden;
 	private Persoon deAfgemelde;
 	
-	public Afmelding(String iReden, Persoon afgemelde){
-		reden = iReden;
+	public Afmelding(String iType, Persoon afgemelde){
+		type = iType;
 		deAfgemelde = afgemelde;
+	}
+	
+	public Afmelding(String iType, String iReden, Persoon afgemelde){
+		this(iType, afgemelde);
+		reden = iReden;
 	}
 	
 	public void setReden(String nieuweReden){
@@ -16,6 +22,8 @@ public class Afmelding {
 	}
 	
 	public String getReden(){	return reden;}
+	
+	public String getType(){ return type;}
 	
 	public Persoon getAfgemelde(){ return deAfgemelde;}
 	
