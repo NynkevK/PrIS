@@ -33,13 +33,107 @@ public class PresentieController implements Handler{
 
 	@Override
 	public void handle(Conversation conversation){
-		if(conversation.getRequestedURI().startsWith("/presentie/opslaan")){
-			opslaan(conversation);
-		} else if (conversation.getRequestedURI().startsWith("/presentie/ophalen")){
-			ophalen(conversation);
+		if(conversation.getRequestedURI().startsWith("/les/presentie/ophalen")){
+			ophalenLes(conversation);
+		} else if (conversation.getRequestedURI().startsWith("/les/presentie/opslaan")){
+			opslaanLes(conversation);
+		} else if (conversation.getRequestedURI().startsWith("/persoon/presentie/opslaan"));
+	}
+
+	private void opslaanLes(Conversation conversation) {
+		JsonObject lJsonObjectIn = (JsonObject) conversation.getRequestBodyAsJSON();
+		Rooster hetRooster = informatieSysteem.getRooster();
+		
+		// info verzamelen om de les mee op te vragen
+		
+		// calendar object converten naar LocalDate en LocalTime
+		@SuppressWarnings("static-access")
+		Calendar lDatum_afmeldingInCal = PrIS.standaardDatumStringToCal(lJsonObjectIn.getString("date")).getInstance();
+		LocalDateTime dateTime = LocalDateTime.ofInstant(lDatum_afmeldingInCal.toInstant(), ZoneId.systemDefault());
+		LocalDate lDatum_afmeldingInLD = dateTime.toLocalDate();
+		LocalTime lStartTijd_afmelding = dateTime.toLocalTime();
+		
+		// locatie van de les van de afmelding uit de request halen
+		String lLocatie_afmelding = lJsonObjectIn.getString("location");
+		
+		// les ophalen waarvoor de presentie opgeslagen moet worden
+		Les lLesVan_afmelding = hetRooster.getLes(lDatum_afmeldingInLD, lStartTijd_afmelding, lLocatie_afmelding);
+		
+		JsonArray lAfmeldingen_jArray = lJsonObjectIn.getJsonArray("non-appearance");
+		if(lAfmeldingen_jArray != null){
+			for(int i=0;i<lAfmeldingen_jArray.size();i++){
+				JsonObject lAfmelding_jsonObj = lAfmeldingen_jArray.getJsonObject(i);
+				
+				// info van afmelding ophalen
+				int lStudentNrVanAfmelding = lAfmelding_jsonObj.getInt("student-number");
+				Student lStudentVanAfmelding = informatieSysteem.getStudent(lStudentNrVanAfmelding);
+				String lRedenVanAfmelding = lAfmelding_jsonObj.getString("reason");
+				
+				// afmelding toevoegen aan les
+				lLesVan_afmelding.voegAfmeldingToe(lStudentVanAfmelding, lRedenVanAfmelding);
+			}
 		}
+		
+		// output json object aanmaken en errorcode toevoegen
+		JsonObjectBuilder lJob =	Json.createObjectBuilder(); 
+	  lJob.add("errorcode", 0);
+	  // nothing to return use only errorcode to signal: ready!
+	  String lJsonOutStr = lJob.build().toString();
+	 	conversation.sendJSONMessage(lJsonOutStr);
 	}
 	
+	private void ophalenLes(Conversation conversation) {
+		JsonObject lJsonObjectIn = (JsonObject) conversation.getRequestBodyAsJSON();
+		Rooster hetRooster = informatieSysteem.getRooster();
+		
+		// info verzamelen om de les mee op te vragen
+		
+		// calendar object converten naar LocalDate en LocalTime
+		@SuppressWarnings("static-access")
+		Calendar lDatum_LesInCal = PrIS.standaardDatumStringToCal(lJsonObjectIn.getString("date")).getInstance();
+		LocalDateTime dateTime = LocalDateTime.ofInstant(lDatum_LesInCal.toInstant(), ZoneId.systemDefault());
+		LocalDate lDatum_LesInLD = dateTime.toLocalDate();
+		LocalTime lStartTijd_Les = dateTime.toLocalTime();
+		
+		// locatie van de les de request halen
+		String lLocatie_Les = lJsonObjectIn.getString("location");
+		
+		// les ophalen waarvoor de presentie opgehaald moet worden
+		Les lLes = hetRooster.getLes(lDatum_LesInLD, lStartTijd_Les, lLocatie_Les);
+		
+		JsonArrayBuilder lJsonArrayBuilder = Json.createArrayBuilder();
+		ArrayList<Afmelding> lAfmeldingenVanLes = lLes.getAfmeldingen();
+		
+		for(Afmelding lAfmelding : lAfmeldingenVanLes){
+			Persoon tempPersoon = lAfmelding.getAfgemelde();
+			
+			// als de afgemelde niet een student is gaat hij naar de volgende afmelding
+			if(!(tempPersoon instanceof Student)){
+				continue;
+			}
+			
+			// info van afmelding ophalen
+			Student persoonVanAfmelding = (Student) tempPersoon;
+			int nummerVanPersoon = persoonVanAfmelding.getStudentNummer();
+			String naamVanPersson = persoonVanAfmelding.getVoornaam() + " " + persoonVanAfmelding.getVolledigeAchternaam();
+			
+			JsonObjectBuilder lJsonObjectBuilderVoorAfmelding = Json.createObjectBuilder();
+			
+			// info in json object zetten
+			lJsonObjectBuilderVoorAfmelding
+				.add("number", nummerVanPersoon)
+				.add("name", naamVanPersson)
+				.add("type", lAfmelding.getReden());
+			
+			// json object aan json array toevoegen
+			lJsonArrayBuilder.add(lJsonObjectBuilderVoorAfmelding);
+		}
+		
+		// en dan als alle afmeldingen gecheckt zijn antwoorden met de json array
+		String lJsonOutStr = lJsonArrayBuilder.build().toString();												// maak er een string van
+		conversation.sendJSONMessage(lJsonOutStr);
+	}
+
 	public void ophalen(Conversation conversation){
 		JsonObject lJsonObjectIn = (JsonObject) conversation.getRequestBodyAsJSON();
 		String lRol = lJsonObjectIn.getString("rol");
@@ -122,14 +216,18 @@ public class PresentieController implements Handler{
 		String lGebruikersnaam = lJsonObjectIn.getString("username");
 		Rooster hetRooster = informatieSysteem.getRooster();
 		
+		// JsonArray van nieuwe afmeldingen uit de request halen
 		JsonArray lAfmeldingen_jArray = lJsonObjectIn.getJsonArray("non-appearance");
 		
+		// als de rol van de persoon die de afmelding(en) verstuurd student is wordt die persoon voor de afmeldingen gebruikt
 		if(lRol == "student"){
 			Student afmeldende = informatieSysteem.getStudent(lGebruikersnaam);
 			if(lAfmeldingen_jArray != null){
 				for(int i=0;i<lAfmeldingen_jArray.size();i++){
 					JsonObject lAfmelding_jsonObj = lAfmeldingen_jArray.getJsonObject(i);
+					
 					// info verzamelen om de les mee op te vragen
+					
 					// calendar object converten naar LocalDate en LocalTime
 					@SuppressWarnings("static-access")
 					Calendar lDatum_afmeldingInCal = PrIS.standaardDatumStringToCal(lAfmelding_jsonObj.getString("date")).getInstance();
@@ -137,11 +235,13 @@ public class PresentieController implements Handler{
 					LocalDate lDatum_afmeldingInLD = dateTime.toLocalDate();
 					LocalTime lStartTijd_afmelding = dateTime.toLocalTime();
 					
+					// locatie van de les van de afmelding uit de request halen
 					String lLocatie_afmelding = lAfmelding_jsonObj.getString("location");
 					
 					// les ophalen waarvoor afgemeld is
 					Les lLesVan_afmelding = hetRooster.getLes(lDatum_afmeldingInLD, lStartTijd_afmelding, lLocatie_afmelding);
 					
+					// reden van de afmelding uit de request halen
 					String lReden_afmelding = lAfmelding_jsonObj.getString("reason");
 					
 					// afmelding toevoegen aan les
@@ -168,11 +268,13 @@ public class PresentieController implements Handler{
 					LocalDate lDatum_afmeldingInLD = dateTime.toLocalDate();
 					LocalTime lStartTijd_afmelding = dateTime.toLocalTime();
 					
+					// locatie van de les van de afmelding uit de request halen
 					String lLocatie_afmelding = lAfmelding_jsonObj.getString("location");
 					
 					// les ophalen waarvoor afgemeld is
 					Les lLesVan_afmelding = hetRooster.getLes(lDatum_afmeldingInLD, lStartTijd_afmelding, lLocatie_afmelding);
 					
+					// reden van de afmelding uit de request halen
 					String lReden_afmelding = lAfmelding_jsonObj.getString("reason");
 					
 					// afmelding toevoegen aan les
@@ -181,6 +283,7 @@ public class PresentieController implements Handler{
 			}
 		}
 		
+		// output json object aanmaken en errorcode toevoegen
 		JsonObjectBuilder lJob =	Json.createObjectBuilder(); 
   	lJob.add("errorcode", 0);
    	//nothing to return use only errorcode to signal: ready!
