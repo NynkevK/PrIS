@@ -18,6 +18,7 @@ public class Les {
 	private String locatie;
 	private Klas deKlas;
 	private ArrayList<Afmelding> deAfmeldingen;
+	private boolean presentieVerwerkt;
 	
 	public Les(LocalDate iDatum, LocalTime iStartTijd, LocalTime iEindTijd, String iVak, Docent iDeDocent, String iLocatie, Klas iDeKlas){
 		datum = iDatum;
@@ -28,6 +29,7 @@ public class Les {
 		locatie = iLocatie;
 		deKlas = iDeKlas;
 		deAfmeldingen = new ArrayList<Afmelding>();
+		presentieVerwerkt = false;
 	}
 	
 	public ArrayList getInfo(){
@@ -49,6 +51,9 @@ public class Les {
 		
 		if (!(deAfmeldingen.contains(afmelding))){
 			deAfmeldingen.add(afmelding);
+			if(!(presentieVerwerkt)){
+				presentieVerwerkt = true;
+			}
 		}
 	}
 	public ArrayList<Afmelding> getAfmeldingen(){
