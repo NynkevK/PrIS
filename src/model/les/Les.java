@@ -9,7 +9,7 @@ import model.klas.Klas;
 import model.persoon.Docent;
 import model.persoon.Persoon;
 
-public class Les {
+public class Les implements Comparable<Les>{
 	private LocalDate datum;
 	private LocalTime startTijd;
 	private LocalTime eindTijd;
@@ -32,6 +32,7 @@ public class Les {
 		presentieVerwerkt = false;
 	}
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public ArrayList getInfo(){
 		ArrayList infoList = new ArrayList();
 		
@@ -93,21 +94,17 @@ public class Les {
 		return gelijkeObjecten;
 	}
 	
-	public int compareTo(Object object){
-		if(object instanceof Les){
-			Les andereLes = (Les)object;
-			if(this.datum.isAfter(andereLes.datum)){
-				return 1; //deze les is later
-			} else if(this.datum.isBefore(andereLes.datum)){
-				return -1; //deze les is eerder
-			} else if(this.datum.equals(andereLes.datum)){
-				if(this.startTijd.isAfter(andereLes.startTijd)){
-					return 1; //deze les begint later op dezelfde dag
-				} else if(this.startTijd.isBefore(andereLes.startTijd)){
-					return -1; //deze les begint eerder op dezelfde dag
-				}
+	public int compareTo(Les andereLes){
+		if(this.datum.isAfter(andereLes.datum)){
+			return 1; //deze les is later
+		} else if(this.datum.isBefore(andereLes.datum)){
+			return -1; //deze les is eerder
+		} else if(this.datum.equals(andereLes.datum)){
+			if(this.startTijd.isAfter(andereLes.startTijd)){
+				return 1; //deze les begint later op dezelfde dag
+			} else if(this.startTijd.isBefore(andereLes.startTijd)){
+				return -1; //deze les begint eerder op dezelfde dag
 			}
-			
 		}
 		
 		return 0; //de Lessen zijn op de zelfde datum en tijd
