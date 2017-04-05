@@ -12,7 +12,6 @@ import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
-import javax.swing.LayoutFocusTraversalPolicy;
 
 import model.PrIS;
 import model.afmelding.Afmelding;
@@ -80,6 +79,7 @@ public class PresentieController implements Handler{
 			JsonObjectBuilder lJsonObjectBuilderVoorLes = Json.createObjectBuilder();
 			
 			// verzamel de info van de les
+			@SuppressWarnings("rawtypes")
 			ArrayList lesInfo = lLes.getInfo();
 			String datumVanLesString = lesInfo.get(0).toString();
 			String startTijdVanLesString = lesInfo.get(1).toString();
