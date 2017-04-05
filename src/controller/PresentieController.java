@@ -132,7 +132,7 @@ public class PresentieController implements Handler{
 		}
 		
 		// en dan als alle afmeldingen gecheckt zijn antwoorden met de json array
-		String lJsonOutStr = lJsonArrayBuilder.build().toString();												// maak er een string van
+		String lJsonOutStr = lJsonArrayBuilder.build().toString();
 		conversation.sendJSONMessage(lJsonOutStr);
 	}
 
