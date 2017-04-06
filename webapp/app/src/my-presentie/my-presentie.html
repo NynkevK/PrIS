@@ -1,0 +1,121 @@
+<link rel<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="my-presentie">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .my-title {
+        font-size: 20px;
+        color: blue;
+        border-bottom: 1px solid red; /*#1a9fd9; */  /* a red line */
+        padding-bottom: 2px;                         /* space above the border line */
+      }
+      .my-detail {
+        font-size: 12px;
+        margin-bottom: 0px;
+        margin-left: 10px;                     
+      }
+      .my-input {
+        max-width: 150px;
+      }
+      .my-type {
+      	position:absolute;
+	    left:300px;
+      }
+      .my-line {
+         display: flex;
+         allign-items: left;
+      }
+      .my-label {
+         width: 200px;                     /* default width, but can become smaller and wraps two to lines */
+         min-width: 80px;                /* width, but can not become smaller after wrapping */
+      }
+      .my-label2 {
+        min-width: 20px;                 /* default width, but can not become smaller, nor wrapping */
+      }
+      .my-value {
+        width: 400px;                      /* default width, but can become smaller and wraps two to lines */
+        min-width: 180px;               /* width, but can not become smaller after wrapping */
+      }
+      .my-button {
+        position:absolute;
+	    bottom:4px;
+	    right:0;
+      }
+      .my-button2 {
+        position:absolute;
+	    bottom:4px;
+	    right:100px;
+      }
+    </style>
+    
+    <div class="my-title">Presentie lijst</div>
+    <div class="my-line">
+        <span class="my-label">Klassenlijst V1E </span>
+        <span class="my-type">status</span>
+        </div>
+    <br/>
+      
+      <template is="dom-repeat" items="{{studenten}}">
+        <div><span>{{item.number}} </span><span>{{item.name}} </span><span class="my-type">{{item.type}}</span></div>
+    </template>
+
+      
+      <paper-button
+      id="annuleren_button"
+      class="my-button"
+      on-click="_annuleer"
+      raised>
+        Annuleer
+    </paper-button>
+    <paper-button
+      id="verzenden_button"
+      class="my-button2"
+      on-click="_verzenden"
+      raised>
+        Verzenden
+    </paper-button>
+      
+
+    <iron-ajax
+      id="ajax_presentie_ophalen"
+      method="POST"
+      url="/student/medestudenten/ophalen"
+      handle-as="json"
+      on-response="_presentie_ophalen">
+    </iron-ajax>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'my-presentie', 
+      
+      ready: function() {
+      //Json file inlezen      
+        this.studenten = [
+            {number: '1704102', name: 'Bakker Martijn', type:'aanwezig'},
+            {number: '1702265', name: 'Abdoel Shafie', type: 'afwezig'},
+            {number: '1698311', name: 'Wessel Henkes', type: 'afwezig'},
+            {number: '1657627', name: 'Ruben Holslag', type: 'afgemeld'}
+        ];
+      },
+
+
+      _annuleer: function() {
+          var lApp = document.querySelector('my-app'); 
+          var lAppRouter = lApp.$.approuter;           
+          lAppRouter.data={page: ""};                   
+         },
+      _verzenden:function() {    
+			this.name = "hoi";      
+         }
+         
+      
+    });
+  </script>
+</dom-module>
