@@ -34,6 +34,8 @@ public class Application {
 		SysteemDatumController systeemDatumController = new SysteemDatumController(infoSysteem);
 		LoginController loginController = new LoginController(infoSysteem);
 		MedestudentenController medestudentenController = new MedestudentenController(infoSysteem);
+		RoosterController roosterController = new RoosterController(infoSysteem);
+		PresentieController presentieController = new PresentieController(infoSysteem); 
 		
 		server.registerHandler("/systeemdatum/lesinfo", systeemDatumController);
 
@@ -41,7 +43,15 @@ public class Application {
 
   	server.registerHandler("/student/medestudenten/ophalen", medestudentenController);
   	server.registerHandler("/student/medestudenten/opslaan", medestudentenController);
+  	
+  	server.registerHandler("/rooster/ophalen/klas", roosterController);
+  	server.registerHandler("/rooster/ophalen/docent", roosterController);
+  	server.registerHandler("/rooster/ophalen", roosterController);
 		
+  	server.registerHandler("/les/presentie/ophalen", presentieController);
+  	server.registerHandler("/les/presentie/opslaan", presentieController);
+  	server.registerHandler("/persoon/presentie/opslaan", presentieController);
+  	
 		server.start();
 	}
 }
