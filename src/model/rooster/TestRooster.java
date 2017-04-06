@@ -1,7 +1,5 @@
 package model.rooster;
 
-import static org.junit.Assert.*;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,34 +10,26 @@ import org.junit.Test;
 
 import model.les.Les;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.IOException;
+import java.io.ByteArrayOutputStream;
+
+
 public class TestRooster {
 
-	public TestRooster() {}
-	
-	@Before
-	public void setUp() throws Exception {
-		String csvBestand = "././CSV/rooster.csv";
-	  BufferedReader br = null;
-	  String line = "";
-	  ArrayList<Les> lessen = new ArrayList<Les>();
+    @Test
+    public void testWrite() throws IOException {
+        Rooster unit = new Rooster();
 
-  	br = new BufferedReader(new FileReader(csvBestand));
-  	while ((line = br.readLine()) != null) {
+        Les output = new Les();
 
-      Les lesObject = parseObjectFromString(line, Les.class);
-  
-      lessen.add(lesObject);
-	  	} 
-	}
+        unit.getLessen();
 
-	public static <T> T parseObjectFromString(String s, Class<T> clazz) throws Exception {
-	    return clazz.getConstructor(new Class[] {String.class }).newInstance(s);
-	    // naar PrIs verhuizen?
-	}
-	
-@Test
-	public void getLessen() throws Exception {
-	  ArrayList<Les> lessen = new ArrayList<Les>();
-	  
-	  }
+        String string = new String(output.toString());
+        assertEquals(output, string);
+    }
 }
