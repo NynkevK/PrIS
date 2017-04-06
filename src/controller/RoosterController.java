@@ -132,7 +132,6 @@ public class RoosterController implements Handler {
 	}
 
 	private void ophalenAlles(Conversation conversation) {
-		JsonObject lJsonObjectIn = (JsonObject) conversation.getRequestBodyAsJSON();
 		Rooster hetRooster = informatieSysteem.getRooster();
 		// alle lessen in het rooster ophalen en sorteren
 		ArrayList<Les> alleLessen = hetRooster.getLessen();

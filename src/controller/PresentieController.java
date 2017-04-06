@@ -15,9 +15,7 @@ import javax.json.JsonObjectBuilder;
 
 import model.PrIS;
 import model.afmelding.Afmelding;
-import model.klas.Klas;
 import model.les.Les;
-import model.persoon.Docent;
 import model.persoon.Persoon;
 import model.persoon.Student;
 import model.rooster.Rooster;
