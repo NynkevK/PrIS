@@ -36,7 +36,7 @@ public class Rooster {
 	}
 	
 	public ArrayList<Les> getLessen() {
-		  String csvBestand = "rooster.csv";
+		  String csvBestand = "././CSV/rooster.csv";
 		  BufferedReader br = null;
 		  String line = "";
 		  ArrayList<Les> lessen = new ArrayList<Les>();
@@ -60,7 +60,7 @@ public class Rooster {
 		  }
 		  
 		public ArrayList<Les> getLessenVanKlas(Klas klas) {
-			  String csvBestand = "rooster.csv";
+			  String csvBestand = "././CSV/rooster.csv";
 			  BufferedReader br = null;
 			  String line = "";
 			  ArrayList<Les> lessenVanKlas = new ArrayList<Les>();
@@ -88,7 +88,7 @@ public class Rooster {
 		
 		public ArrayList<Les> getLessenVanDocent(Docent docent) {
 				// 
-			  String csvBestand = "rooster.csv";
+			  String csvBestand = "././CSV/rooster.csv";
 			  BufferedReader br = null;
 			  String line = "";
 			  ArrayList<Les> lessenVanDocent = new ArrayList<Les>();
