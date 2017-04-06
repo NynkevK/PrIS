@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 
 import model.klas.Klas;
+import model.les.Les;
 import model.persoon.Docent;
 import model.persoon.Student;
 import model.rooster.Rooster;
@@ -18,7 +19,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Calendar;
-import java.util.Date;
 
 public class PrIS {
 	private ArrayList<Docent> deDocenten;
@@ -53,6 +53,7 @@ public class PrIS {
 		deDocenten = new ArrayList<Docent>();
 		deStudenten = new ArrayList<Student>();
 		deKlassen = new ArrayList<Klas>();
+		hetRooster = new Rooster();
 
 		// Inladen klassen
 		vulKlassen(deKlassen);
@@ -62,6 +63,9 @@ public class PrIS {
 
 		// Inladen docenten
 		vulDocenten(deDocenten);
+		
+		// Inladen docenten
+		vulRooster(hetRooster);
 	
 	} //Einde Pris constructor
 	
@@ -291,27 +295,25 @@ public class PrIS {
 				br = new BufferedReader(new FileReader(csvFile));
 				while ((line = br.readLine()) != null) {
 		
-				        // use comma as separator
+				  // use comma as separator
 					String[] element = line.split(cvsSplitBy);
 					LocalDate localDate = LocalDate.parse(element[0]);
 					
 					LocalTime StartTijd = LocalTime.parse(element[1]);
 					LocalTime EindTijd 	= LocalTime.parse(element[2]);
 					String Vak 					= element[3];
-					String docent 			= element[4];
-					String locatie 			= element[4];
-					String Klas 				= element[4];
-					
-					pRooster.voegLesToe(localDate, StartTijd, EindTijd, Vak, docent, locatie, Klas);
-					
-					
-			
+					Docent docent 			= getDocent(element[4]);
+					String locatie 			= element[5];
+					Klas klas 				= null;
+					for(Klas lklas : deKlassen){
+						if(lklas.getKlasCode() == element[6]){
+							klas = lklas;
+						}
+					}
+					pRooster.voegLesToe(new Les(localDate, StartTijd, EindTijd, Vak, docent, locatie, klas));
 				}
-		
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
-			} catch (ParseException e) {
-        e.printStackTrace();
 			}	catch (IOException e) {
 				e.printStackTrace();
 			} finally {
