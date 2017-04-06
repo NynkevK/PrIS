@@ -1,0 +1,20 @@
+[
+	{
+	"date" : "2017-02-06",
+	"start-time" : "10:00",
+	"end-time" : "12:30",
+	"course" : "TICT-V1OODC-15_2016",
+	"teacher" : "peter.schuler@hu.nl",
+	"location" : "DL200-3.91 (52)",
+	"class-code" : "TICT-SIE-V1D"
+	},
+	{
+	"date" : "2017-02-06",
+	"start-time" : "11:30",
+	"end-time" : "14:00",
+	"course" : "TICT-V1OODC-15_2016",
+	"teacher" : "bart.vaneijkelenburg@hu.nl",
+	"location" : "DL200-6.84 (32)",
+	"class-code" : "TICT-SIE-V1B"
+	}
+]
