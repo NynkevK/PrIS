@@ -15,7 +15,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Calendar;
+import java.util.Date;
 
 public class PrIS {
 	private ArrayList<Docent> deDocenten;
@@ -50,7 +53,6 @@ public class PrIS {
 		deDocenten = new ArrayList<Docent>();
 		deStudenten = new ArrayList<Student>();
 		deKlassen = new ArrayList<Klas>();
-		hetRooster = new Rooster();
 
 		// Inladen klassen
 		vulKlassen(deKlassen);
@@ -77,7 +79,6 @@ public class PrIS {
 		}
 		return lCal;
 	}
-	
 	//deze method is static onderdeel van PrIS omdat hij als hulp methode 
 	//in veel controllers gebruikt wordt
 	//een standaardDatumString heeft formaat YYYY-MM-DD
@@ -275,6 +276,54 @@ public class PrIS {
 			
 		}
 	}	
+
+
+
+	public void vulRooster(Rooster pRooster) {
+			String csvFile = "././CSV/rooster.csv";
+			BufferedReader br = null;
+			String line = "";
+			String cvsSplitBy = ",";
+	
+			
+			try {
+		
+				br = new BufferedReader(new FileReader(csvFile));
+				while ((line = br.readLine()) != null) {
+		
+				        // use comma as separator
+					String[] element = line.split(cvsSplitBy);
+					LocalDate localDate = LocalDate.parse(element[0]);
+					
+					LocalTime StartTijd = LocalTime.parse(element[1]);
+					LocalTime EindTijd 	= LocalTime.parse(element[2]);
+					String Vak 					= element[3];
+					String docent 			= element[4];
+					String locatie 			= element[4];
+					String Klas 				= element[4];
+					
+					pRooster.voegLesToe(localDate, StartTijd, EindTijd, Vak, docent, locatie, Klas);
+					
+					
+			
+				}
+		
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (ParseException e) {
+        e.printStackTrace();
+			}	catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (br != null) {
+					try {
+						br.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+	}
 
 
 }
