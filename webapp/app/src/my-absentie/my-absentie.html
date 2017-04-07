@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="import" href="../../bower_components/polymer/polymer.html">
+    <script src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
+    <link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
+
+
+</head>
+
+<body>
+
+    <dom-module id="my-absentie">
+
+  <!-- Defines the element's style and local DOM -->
+  <template>
+    <center>
+      <iframe id='cv_if5' src='http://cdn.instantcal.com/cvir.html?id=cv_nav5&file=webcal%3A%2F%2Fmijnrooster.sharepoint.hu.nl%2Fical%3F588f6f57%26group%3Dfalse%26deduplicate%3Dtrue%26eu%3DU1REXDE3MDU2MzI%3D%26t%3D056972ba-4737-4c2a-90b0-9383691de938&theme=BL&ccolor=%23ffffc0&dims=1&gtype=cv_monthgrid&gcloseable=0&gnavigable=1&gperiod=month&itype=cv_simpleevent'
+      allowTransparency=true scrolling='no' frameborder=0 height=750 width=950>
+
+    </iframe>
+
+    <section>
+    <div class="label">Radio button</div>
+    <paper-radio-button role="radio" tabindex="0" aria-checked="true" checked=""></paper-radio-button>
+    </section>
+
+    </center>
+  </template>
+  <!-- Creates the element's prototype and registers it -->
+  <script>
+      Polymer({
+          is: 'my-absentie'
+      });
+  </script>
+    </dom-module>
+</body>
+
+</html>
