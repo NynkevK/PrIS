@@ -1,0 +1,142 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../bower_components/core-selector/core-selector.html">
+<link rel="import" href="../../bower_components/core-a11y-keys/core-a11y-keys.html">
+
+
+<dom-module id="my-afmelden">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      paper-radio-button {
+      display: block;}
+      .my-title {
+        font-size: 20px;
+        color: blue;
+        border-bottom: 1px solid red; /*#1a9fd9; */  /* a red line */
+        padding-bottom: 2px;                         /* space above the border line */
+      }
+      .my-detail {
+        font-size: 12px;
+        margin-bottom: 0px;
+        margin-left: 10px;                     
+      }
+      .my-type {
+      	position:absolute;
+	    left:300px;
+      }
+      .my-line {
+         display: flex;
+         allign-items: left;
+      }
+      .my-label {
+         width: 200px;                     /* default width, but can become smaller and wraps two to lines */
+         min-width: 80px;                /* width, but can not become smaller after wrapping */
+      }
+      .my-label2 {
+        min-width: 20px;                 /* default width, but can not become smaller, nor wrapping */
+      }
+      .my-value {
+        width: 400px;                      /* default width, but can become smaller and wraps two to lines */
+        min-width: 180px;               /* width, but can not become smaller after wrapping */
+      }
+      .my-button {
+        position:absolute;
+	    bottom:4px;
+	    right:0;
+      }
+      .my-button2 {
+        position:absolute;
+	    bottom:4px;
+	    right:100px;
+      }
+    </style>
+    
+    <div class="my-title">Afmelden</div>
+    <section>
+    <paper-radio-button></paper-radio-button>
+    </section>
+    
+      
+      <template is="dom-repeat" items="{{lessen}}">
+        <div><span>{{item.date}} </span><span>{{item.teacher}} </span><span class="my-type">{{item.course}}</span></div>
+    </template>
+    <paper-input-container always-float-label>
+      <p>Reden</p>
+	  <textarea rows="3"></textarea>
+	</paper-input-container>
+    </p>
+    
+    <paper-dropdown-menu label="Your favourite pastry">
+    <paper-menu attr-for-selected="value" selected="{{selection}}" class="dropdown-content">
+        <paper-item value="croissant">Croissant</paper-item>
+        <paper-item value="donut">Donut</paper-item>
+        <paper-item value="madeleine">Madeleine</paper-item>
+    </paper-menu>
+	</paper-dropdown-menu>
+	 <form>
+	 </br>
+		<paper-radio-group selected="{{radioSelected}}">
+		  <paper-radio-button name="aan">Aanwezig</paper-radio-button>
+		  <paper-radio-button name="afw">Afwezig</paper-radio-button>
+		  <paper-radio-button name="afg">Afgemeld</paper-radio-button>
+		</paper-radio-group>
+     </form>
+    <section>
+    
+    <paper-checkbox id="aan" checked>Aanwezig</paper-checkbox>
+    <paper-checkbox id="afw">Afwezig</paper-checkbox>
+    <paper-checkbox id="afg">Afgemeld</paper-checkbox>
+    
+  </section>
+      <paper-button
+      id="annuleren_button"
+      class="my-button"
+      on-click="_annuleer"
+      raised>
+        Annuleer
+    </paper-button>
+    <paper-button
+      id="verzenden_button"
+      class="my-button2"
+      on-click="_verzenden"
+      raised>
+        Verzenden
+    </paper-button>
+      
+
+    <iron-ajax
+      id="ajax_presentie_ophalen"
+      method="POST"
+      url="/student/medestudenten/ophalen"
+      handle-as="json"
+      on-response="_presentie_ophalen">
+    </iron-ajax>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'my-afmelden', 
+
+
+      _annuleer: function() {
+          var lApp = document.querySelector('my-app'); 
+          var lAppRouter = lApp.$.approuter;           
+          lAppRouter.data={page: ""};                   
+         },
+      _verzenden:function() {    
+			if (hour < 18) {
+			    greeting = "Good day";
+			}     
+         }
+         
+      
+    });
+  </script>
+</dom-module>
