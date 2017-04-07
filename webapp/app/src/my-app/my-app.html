@@ -1,7 +1,7 @@
 <!doctype html>
 <!-- editing in eclipse to change tabs to spaces
-1.Click Window » Preferences
-2.Expand General » Editors
+1.Click Window Â» Preferences
+2.Expand General Â» Editors
 3.Click Text Editors
 4.Check Insert spaces for tabs
 5.Click OK ad nauseam to apply the changes.
@@ -157,6 +157,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </a>
 
           <!-- beschikbaar voor docent---------------------------------------------------- -->
+		
+	
+	  <a name="presentie" href$="[[_c_baseURL]]presentie"  verborgen$="[[_are_strings_equal(_rol, 'undefined')]]">
+            <iron-icon icon="account-box"></iron-icon>
+            <span>Presentie</span>
+          </a>
+          
+          <a name="afmelden" href$="[[_c_baseURL]]afmelden"  verborgen$="[[_are_strings_equal(_rol, 'undefined')]]">
+            <iron-icon icon="account-box"></iron-icon>
+            <span>Afmelden</span>
+          </a>
 
           <!-- beschikbaar voor student--------------------------------------------------- -->
           <a name="student_medestudenten" href$="[[_c_baseURL]]student/medestudenten"  verborgen$="[[!_are_strings_equal(_rol, 'student')]]">
@@ -212,6 +223,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 systeemdatumstandaard="{{_systeemdatumstandaard}}"
                 c_visible="[[_are_strings_equal(_ar_page, 'systeem_instellen_systeemdatum')]]">
               </my-systeemdatum>
+            </paper-material>
+          </section>
+	      
+	  <section name="presentie" 
+                   title="PRESENTIE"
+                   element$="my-presentie">
+            <paper-material elevation="1">
+              <my-presentie rol="{{_rol}}"></my-presentie>
+            </paper-material>
+          </section>
+          
+          <section name="afmelden" 
+                   title="AFMELDEN"
+                   element$="my-afmelden">
+            <paper-material elevation="1">
+              <my-afmelden rol="{{_rol}}"></my-afmelden>
             </paper-material>
           </section>
 
