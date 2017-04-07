@@ -47,15 +47,15 @@ public class Rooster {
 		
 	}
 	
-		public ArrayList<Les> getLessenVanDocent(Docent docent) {
-			ArrayList<Les> lessenVanDocent = new ArrayList<Les>();
-			
-			for (Les les : deLessen) {
-				if (les.getInfo().get(5).equals(docent)) {
-					lessenVanDocent.add(les);
-				}
-		}
-			
-		return lessenVanDocent;
-		}
+	public ArrayList<Les> getLessenVanDocent(Docent docent) {
+		ArrayList<Les> lessenVanDocent = new ArrayList<Les>();
+		
+		for (Les les : deLessen) {
+			if (les.getInfo().get(5).equals(docent)) {
+				lessenVanDocent.add(les);
+			}
+	}
+		
+	return lessenVanDocent;
+	}
 }

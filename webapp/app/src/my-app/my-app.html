@@ -156,6 +156,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Absentie</span>
           </a>
 
+          <a name="afmelden" href$="[[_c_baseURL]]afmelden" >
+          <iron-icon icon="account-box"></iron-icon>
+          <span>Afmelden</span>
+          </a>
+
           <a name="login" href$="[[_c_baseURL]]login"  verborgen$="[[!_are_strings_equal(_rol, 'undefined')]]">
             <iron-icon icon="account-box"></iron-icon>
             <span>Inloggen</span>
@@ -232,6 +237,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                      <my-absentie></my-absentie>
                    </paper-material>
           </section>
+
+          <section name="afmelden"
+                  title="AFMELDEN"
+                  element$="my-afmelden">
+           <paper-material elevation="1">
+             <my-afmelden></my-afmelden>
+           </paper-material>
+         </section>
+
           <section name="calendar"
               	   title="CALENDAR"
               	   element$="my-calendar">

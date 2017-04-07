@@ -163,7 +163,7 @@ public class PresentieController implements Handler{
 				// les ophalen waarvoor afgemeld is
 				Les lLesVan_afmelding = hetRooster.getLes(lDatumVanAfmelding, lStartTijdVanAfmelding, lLocatie_afmelding);
 				
-				// reden van de afmelding uit de request halen
+				// reden en type van de afmelding uit de request halen
 				String lTypeAfmelding = lAfmelding_jsonObj.getString("type");
 				String lRedenAfmelding = lAfmelding_jsonObj.getString("reason");
 				
