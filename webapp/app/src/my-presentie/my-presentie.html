@@ -69,10 +69,10 @@
       
     <template is="dom-repeat" items="{{studenten}}">
         <div><span>{{item.number}} </span><span>{{item.name}} </span><span class="my-type"><paper-dropdown-menu>
-		  <paper-listbox class="dropdown-content" selected="0">
-		    <paper-item>Aanwezig</paper-item>
-		    <paper-item>Afwezig</paper-item>
-		    <paper-item>Afgemeld</paper-item>
+		  <paper-listbox class="dropdown-content" selected={{item.type}} attr-for-selected="data-value">
+		    <paper-item data-value="aanwezig">Aanwezig</paper-item>
+		    <paper-item data-value="afwezig">Afwezig</paper-item>
+		    <paper-item data-value="afgemeld">Afgemeld</paper-item>
 		  </paper-listbox>
 		</paper-dropdown-menu></span>
 		</div>
@@ -111,7 +111,7 @@
       ready: function() {
       //Json file inlezen      
         this.studenten = [
-            {number: '1704102', name: 'Bakker Martijn', type:'aanwezig'},
+            {number: '1704102', name: 'Bakker Martijn', type: 'aanwezig'},
             {number: '1702265', name: 'Abdoel Shafie', type: 'afwezig'},
             {number: '1698311', name: 'Wessel Henkes', type: 'afwezig'},
             {number: '1657627', name: 'Ruben Holslag', type: 'afgemeld'}
