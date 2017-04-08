@@ -1,6 +1,10 @@
 <link rel<link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<script src="../webcomponentsjs/webcomponents-lite.js"></script>
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 
 <dom-module id="my-presentie">
   <template>
@@ -8,6 +12,10 @@
       :host {
         display: block;
       }
+      paper-dropdown-menu, paper-listbox {
+	    width: 100px;
+	    font-size: 12px;
+	  }
       .my-title {
         font-size: 20px;
         color: blue;
@@ -23,8 +31,8 @@
         max-width: 150px;
       }
       .my-type {
-      	position:absolute;
-	    left:300px;
+		margin-left: 20px;
+		padding:0px;
       }
       .my-line {
          display: flex;
@@ -58,12 +66,17 @@
         <span class="my-label">Klassenlijst V1E </span>
         <span class="my-type">status</span>
         </div>
-    <br/>
       
-      <template is="dom-repeat" items="{{studenten}}">
-        <div><span>{{item.number}} </span><span>{{item.name}} </span><span class="my-type">{{item.type}}</span></div>
+    <template is="dom-repeat" items="{{studenten}}">
+        <div><span>{{item.number}} </span><span>{{item.name}} </span><span class="my-type"><paper-dropdown-menu>
+		  <paper-listbox class="dropdown-content" selected="0">
+		    <paper-item>Aanwezig</paper-item>
+		    <paper-item>Afwezig</paper-item>
+		    <paper-item>Afgemeld</paper-item>
+		  </paper-listbox>
+		</paper-dropdown-menu></span>
+		</div>
     </template>
-
       
       <paper-button
       id="annuleren_button"
