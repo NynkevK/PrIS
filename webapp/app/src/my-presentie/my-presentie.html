@@ -1,7 +1,7 @@
 <link rel<link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
-<script src="../webcomponentsjs/webcomponents-lite.js"></script>
+<script src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
@@ -25,7 +25,7 @@
       .my-detail {
         font-size: 12px;
         margin-bottom: 0px;
-        margin-left: 10px;                     
+        margin-left: 10px;
       }
       .my-input {
         max-width: 150px;
@@ -60,13 +60,13 @@
 	    right:100px;
       }
     </style>
-    
+
     <div class="my-title">Presentie lijst</div>
     <div class="my-line">
         <span class="my-label">Klassenlijst V1E </span>
         <span class="my-type">status</span>
         </div>
-      
+
     <template is="dom-repeat" items="{{studenten}}">
         <div><span>{{item.number}} </span><span>{{item.name}} </span><span class="my-type"><paper-dropdown-menu>
 		  <paper-listbox class="dropdown-content" selected={{item.type}} attr-for-selected="data-value">
@@ -77,7 +77,7 @@
 		</paper-dropdown-menu></span>
 		</div>
     </template>
-      
+
       <paper-button
       id="annuleren_button"
       class="my-button"
@@ -92,7 +92,7 @@
       raised>
         Verzenden
     </paper-button>
-      
+
 
     <iron-ajax
       id="ajax_presentie_ophalen"
@@ -106,10 +106,10 @@
 
   <script>
     Polymer({
-      is: 'my-presentie', 
-      
+      is: 'my-presentie',
+
       ready: function() {
-      //Json file inlezen      
+      //Json file inlezen
         this.studenten = [
             {number: '1704102', name: 'Bakker Martijn', type: 'aanwezig'},
             {number: '1702265', name: 'Abdoel Shafie', type: 'afwezig'},
@@ -120,15 +120,15 @@
 
 
       _annuleer: function() {
-          var lApp = document.querySelector('my-app'); 
-          var lAppRouter = lApp.$.approuter;           
-          lAppRouter.data={page: ""};                   
+          var lApp = document.querySelector('my-app');
+          var lAppRouter = lApp.$.approuter;
+          lAppRouter.data={page: ""};
          },
-      _verzenden:function() {    
-			this.name = "hoi";      
+      _verzenden:function() {
+			this.name = "hoi";
          }
-         
-      
+
+
     });
   </script>
 </dom-module>
