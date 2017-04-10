@@ -33,7 +33,7 @@ public class Afmelding {
 		if(object instanceof Afmelding){
 			Afmelding andereAfmelding = (Afmelding)object;
 			
-			if(this.reden.equals(andereAfmelding.getReden()) &&
+			if(this.type.equals(andereAfmelding.getType()) &&
 					this.deAfgemelde.equals(andereAfmelding.getAfgemelde())){
 				gelijkeObjecten = true;
 			}

@@ -47,6 +47,12 @@ public class Les implements Comparable<Les>{
 		return infoList;
 	}
 	
+	public Klas getKlas(){return deKlas;}
+	
+	public boolean getPresentieBijgewerkt(){
+		return presentieVerwerkt;
+	}
+	
 	public void voegAfmeldingToe(Persoon deAfgemelde, String type){
 		Afmelding afmelding = new Afmelding(type, deAfgemelde);
 		
@@ -71,6 +77,10 @@ public class Les implements Comparable<Les>{
 	
 	public ArrayList<Afmelding> getAfmeldingen(){
 		return deAfmeldingen;
+	}
+	
+	public void leegAfmeldingen(){
+		deAfmeldingen.clear();
 	}
 	
 	public boolean equals(Object object){

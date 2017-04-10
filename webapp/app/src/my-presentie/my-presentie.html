@@ -75,42 +75,19 @@
 		    <paper-item data-value="afgemeld">Afgemeld</paper-item>
 		  </paper-listbox>
 		</paper-dropdown-menu></span>
-
-        <!-- <template is="dom-bind">
-  <iron-ajax url="webapp/app/src/my-presentie/data.json" last-response="{{data}}" auto></iron-ajax>
-  <iron-data-table items="[[data]]">
-    <data-table-column name="First Name">
-      <template>[[item.name.first]]</template>
-    </data-table-column>
-    <data-table-column name="Last Name">
-      <template>[[item.name.last]]</template>
-    </data-table-column>
-  </iron-data-table>
-</template> -->
-
-    <template is="dom-repeat" items="{{studenten}}">
-        <div><table style="width:50%"><tr><td align="left"><span>{{item.number}} </span></td><td align="right"><span>{{item.name}} </span></td><td align="right"><span class="my-type">
-          <paper-radio-group class="dropdown-content" selected="{{item.type}}" attr-for-selected="data-value" >
-                <paper-radio-button data-value="aanwezig">Aanwezig</paper-radio-button>
-                <paper-radio-button data-value="afwezig">Afwezig</paper-radio-button>
-                <paper-radio-button data-value="afgemeld">Afgemeld</paper-radio-button>
-          </paper-radio-group>
-        </span>
-      </td><hr></tr></table>
-		</div>
     </template><br><br>
 
       <paper-button
       id="annuleren_button"
       class="my-button"
-      on-click="_annuleer"
+      on-click="_go_home"
       raised>
         Annuleer
     </paper-button>
     <paper-button
       id="verzenden_button"
       class="my-button2"
-      on-click="_verzenden"
+      on-click="_presentie_opslaan_requesthandler"
       raised>
         Verzenden
     </paper-button>
@@ -200,6 +177,23 @@
 	       _presentie_ophalen_response_handler: function(request) {
 	      	 console.log("_presentie_ophalen_response_handler aantal afmeldingen="+request.detail.response.length);
 	      	 this.studenten = request.detail.response;
+	       },
+	       
+	       _presentie_opslaan_requesthandler: function(){
+	    	   console.log("_medestudenten_opslaan_request_handler user="+this.c_username);
+	    	   this.$.ajax_presentie_opslaan.contentType="application/json";
+	    	   this.$.ajax_presentie_opslaan.body={
+	    			"date":"2017-02-06",
+	   	      		"start-time":"10:00",
+	   	      		"location":"DL200-3.91 (52)",
+	   	      		"non-appearance":this.studenten
+	    	   };
+	    	   this.$.ajax_presentie_opslaan.generateRequest();
+	       },
+	       
+	       _presentie_opslaan_response_handler: function(request){
+	    	   console.log("_presentie_opslaan_response_handler errorcode="+request.detail.response.errorcode);
+	    	   this._go_home();
 	       },
 	       
 	  	});
