@@ -28,16 +28,12 @@ public class Rooster {
 			LocalTime lStartTijd = (LocalTime) lesinfo.get(1);
 			String lLocatie = (String) lesinfo.get(5);
 			
-			System.out.println(lDatum.toString() + lStartTijd.toString());
-			
 			if(lDatum.equals(datum) &&
 					lStartTijd.equals(startTijd) &&
 					lLocatie.equals(locatie)){
-				System.out.println("rooster heeftde les gevonden");
 				return les;
 			}
 		}
-		System.out.println("Rooster heeft de les niet gevonden met" + datum.toString() + startTijd.toString());
 		return null;
 	}
 			

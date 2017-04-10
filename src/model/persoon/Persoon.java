@@ -1,6 +1,6 @@
 package model.persoon;
 
-public abstract class Persoon {
+public abstract class Persoon{
 
 	private String voornaam;
 	private String tussenvoegsel;

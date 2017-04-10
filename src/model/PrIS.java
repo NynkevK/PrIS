@@ -304,9 +304,10 @@ public class PrIS {
 					String Vak 					= element[3];
 					Docent docent 			= getDocent(element[4]);
 					String locatie 			= element[5];
+					String klasString = element[6];
 					Klas klas 				= null;
 					for(Klas lklas : deKlassen){
-						if(lklas.getKlasCode() == element[6]){
+						if(klasString.equals(lklas.getKlasCode())){
 							klas = lklas;
 						}
 					}

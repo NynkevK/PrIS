@@ -1,11 +1,8 @@
 package controller;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -15,6 +12,7 @@ import javax.json.JsonObjectBuilder;
 
 import model.PrIS;
 import model.afmelding.Afmelding;
+import model.klas.Klas;
 import model.les.Les;
 import model.persoon.Persoon;
 import model.persoon.Student;
@@ -46,18 +44,20 @@ public class PresentieController implements Handler{
 		
 		// info verzamelen om de les mee op te vragen
 		
-		// calendar object converten naar LocalDate en LocalTime
-		@SuppressWarnings("static-access")
-		Calendar lDatum_afmeldingInCal = PrIS.standaardDatumStringToCal(lJsonObjectIn.getString("date")).getInstance();
-		LocalDateTime dateTime = LocalDateTime.ofInstant(lDatum_afmeldingInCal.toInstant(), ZoneId.systemDefault());
-		LocalDate lDatum_afmeldingInLD = dateTime.toLocalDate();
-		LocalTime lStartTijd_afmelding = LocalTime.parse(lJsonObjectIn.getString("start-time"));
+		// datum en tijd ophalen
+		LocalDate lDatum_Les = LocalDate.parse(lJsonObjectIn.getString("date"));
+		
+		LocalTime lStartTijd_Les = LocalTime.parse(lJsonObjectIn.getString("start-time"));
 		
 		// locatie van de les van de afmelding uit de request halen
 		String lLocatie_afmelding = lJsonObjectIn.getString("location");
 		
 		// les ophalen waarvoor de presentie opgeslagen moet worden
-		Les lLesVan_afmelding = hetRooster.getLes(lDatum_afmeldingInLD, lStartTijd_afmelding, lLocatie_afmelding);
+		Les lLesVan_afmelding = hetRooster.getLes(lDatum_Les, lStartTijd_Les, lLocatie_afmelding);
+		
+		if(lLesVan_afmelding.getPresentieBijgewerkt() == true){
+			lLesVan_afmelding.leegAfmeldingen();
+		}
 		
 		JsonArray lAfmeldingen_jArray = lJsonObjectIn.getJsonArray("non-appearance");
 		if(lAfmeldingen_jArray != null){
@@ -89,7 +89,6 @@ public class PresentieController implements Handler{
 		// info verzamelen om de les mee op te vragen
 		
 		// calendar object converten naar LocalDate en LocalTime
-		@SuppressWarnings("static-access")
 		LocalDate lDatum_Les = LocalDate.parse(lJsonObjectIn.getString("date"));
 		
 		LocalTime lStartTijd_Les = LocalTime.parse(lJsonObjectIn.getString("start-time"));
@@ -108,7 +107,7 @@ public class PresentieController implements Handler{
 		
 		JsonArrayBuilder lJsonArrayBuilder = Json.createArrayBuilder();
 		ArrayList<Afmelding> lAfmeldingenVanLes = lLes.getAfmeldingen();
-		if(lAfmeldingenVanLes != null){
+		if(lLes.getPresentieBijgewerkt() == true){
   		for(Afmelding lAfmelding : lAfmeldingenVanLes){
   			Persoon tempPersoon = lAfmelding.getAfgemelde();
   			
@@ -133,6 +132,24 @@ public class PresentieController implements Handler{
   			// json object aan json array toevoegen
   			lJsonArrayBuilder.add(lJsonObjectBuilderVoorAfmelding);
   		}
+		} else{
+			Klas klasVanLes = lLes.getKlas();
+			if(klasVanLes == null){
+				System.out.println("klas niet gevonden");
+			} else {
+				System.out.println("klas gevonden");
+			}
+			ArrayList<Student> studentenVanKlas = klasVanLes.getStudenten();
+			for(Student student : studentenVanKlas){
+				JsonObjectBuilder lJsonObjectBuilderVoorAfmelding = Json.createObjectBuilder();
+				
+				lJsonObjectBuilderVoorAfmelding
+				.add("number", student.getStudentNummer())
+				.add("name", student.getVoornaam() + student.getVolledigeAchternaam())
+				.add("type", "aanwezig");
+				
+				lJsonArrayBuilder.add(lJsonObjectBuilderVoorAfmelding);
+			}
 		}
 		
 		// en dan als alle afmeldingen gecheckt zijn antwoorden met de json array

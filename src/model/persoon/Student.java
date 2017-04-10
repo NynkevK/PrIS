@@ -3,7 +3,7 @@ package model.persoon;
 
 
 
-public class Student extends Persoon {
+public class Student extends Persoon implements Comparable<Student>{
 	private int studentNummer;
 	private String groepId;
 
@@ -52,4 +52,11 @@ public class Student extends Persoon {
 		return gelijkenObjecten;
 	}
 	
+	public int compareTo(Student andereStudent){
+		int res = this.getVolledigeAchternaam().compareToIgnoreCase(andereStudent.getVolledigeAchternaam());
+		if(res != 0){
+			return res;
+		}
+		return this.getVoornaam().compareToIgnoreCase(andereStudent.getVoornaam());
+	}
 }
