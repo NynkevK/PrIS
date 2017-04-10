@@ -1,4 +1,4 @@
-<link rel<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <script src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
@@ -67,7 +67,7 @@
         <span class="my-type">status</span>
         </div>
 
-    <template is="dom-repeat" items="{{studenten}}">
+    <template is="dom-repeat" items="[[studenten]]">
         <div><span>{{item.number}} </span><span>{{item.name}} </span><span class="my-type"><paper-dropdown-menu>
 		  <paper-listbox class="dropdown-content" selected={{item.type}} attr-for-selected="data-value">
 		    <paper-item data-value="aanwezig">Aanwezig</paper-item>
@@ -97,65 +97,90 @@
     <iron-ajax
       id="ajax_presentie_ophalen"
       method="POST"
-      url="/student/medestudenten/ophalen"
+      url="/les/presentie/ophalen"
       handle-as="json"
-      on-response="_presentie_ophalen">
+      on-response="_presentie_ophalen_response_handler">
+    </iron-ajax>
+    
+    <iron-ajax
+      id="ajax_presentie_opslaan"
+      method="POST"
+      url="/les/presentie/opslaan"
+      handle-as="json"
+      on-response="_presentie_opslaan_response_handler">
     </iron-ajax>
 
   </template>
 
   <script>
-    Polymer({
-      is: 'my-presentie',
+  	(function(){
+  		'use strict';
+        /* _xxxx private              : geen external data binding      - geen notify
+           _c_xx private constant     : geen external binding, constant - geen notify
+           c_xx  public constant      : one way external databinding [[c_xx]] - geen notify nodig
+           xxxx  public               : two way external databinding {{xxxx}} - notify nodig
+        */
+        
+        Polymer({
+        	is: 'my-presentie',
 
-      ready: function() {
-      //Json file inlezen
-        this.studenten = [
-            // {number: '1704102', name: 'Bakker, Martijn', type: 'aanwezig'},
-            // {number: '1702265', name: 'Abdoel, Shafie', type: 'afwezig'},
-            // {number: '1698311', name: 'Henkes, Wessel', type: 'afwezig'},
-            // {number: '1698194', name: 'Daalhuisen, Niels', type: 'aanwezig'},
-            // {number: '1705632', name: 'Diederen, Michiel' type: 'afgemeld'},
-            // {number: '1704412', name: 'Ende,van der,Tjibbe', type: 'afwezig'},
-            // {number: '1657627', name: 'Holslag, Ruben', type: 'afgemeld'}
-
-            {number: '1702265', name: 'Abdoel, Shafie', type: 'aanwezig'},
-            {number: '1704102', name: 'Bakker, Martijn', type: 'aanwezig'},
-            {number: '1710314', name: 'Brakel,van,Niels', type: 'aanwezig'},
-            {number: '1698194', name: 'Daalhuisen, Niels', type: 'aanwezig'},
-            {number: '1705632', name: 'Diederen, Michiel', type: 'aanwezig'},
-            {number: '1704412', name: 'Ende,van der,Tjibbe', type: 'aanwezig'},
-            {number: '1698311', name: 'Henkes, Wessel', type: 'aanwezig'},
-            {number: '1657627', name: 'Holslag, Ruben', type: 'aanwezig'},
-            {number: '1703385', name: 'Hoogeland, Tim', type: 'aanwezig'},
-            {number: '1699291', name: 'Houweling, Meifeng', type: 'aanwezig'},
-            {number: '1696814', name: 'Kasap, Yasin', type: 'aanwezig'},
-            {number: '1710479', name: 'Koningsveld,van,Nynke', type: 'aanwezig'},
-            {number: '1703511', name: 'Kos, Lourens', type: 'aanwezig'},
-            {number: '1658950', name: 'Lanser, Mark', type: 'aanwezig'},
-            {number: '1704271', name: 'Looman, Jerry', type: 'aanwezig'},
-            {number: '1668229', name: 'Mooy, Michiel', type: 'aanwezig'},
-            {number: '1701957', name: 'Mudde, Ezri', type: 'aanwezig'},
-            {number: '1705943', name: 'Schepers, Douwe', type: 'aanwezig'},
-            {number: '1665013', name: 'Smithjes, Guylian', type: 'aanwezig'},
-            {number: '1702623', name: 'Steenbrink, Steven', type: 'aanwezig'},
-            {number: '1684994', name: 'Verkerk, Jeroen', type: 'aanwezig'},
-            {number: '1706382', name: 'Voncken, Cedric', type: 'aanwezig'},
-            {number: '1696546', name: 'Vruggink, Sam', type: 'aanwezig'},
-            {number: '1703684', name: 'Waard,de,Mats', type: 'aanwezig'},
-            {number: '1707132', name: 'Zandberg, Renske', type: 'aanwezig'}
-        ];
-      },
-
-      _annuleer: function() {
-          var lApp = document.querySelector('my-app');
-          var lAppRouter = lApp.$.approuter;
-          lAppRouter.data={page: ""};
-         },
-      _verzenden:function() {
-			this.name = "hoi";
-         }
-
-    });
+	        properties: {
+	          _c_studenten: {
+	            type: Array,           /* array<student-info>: student-info = {id, firstName, lastName, sameGroup} 
+											array is constant groepnr is changable */
+	          },
+	          c_rol: {
+	            type: String,
+	          },
+	          c_username: {
+	            type: String,
+	          },
+	          c_visible: {
+	            type: Boolean,                                      /* true when element is the active visible item */
+	            value: false,
+	            observer: '_initializing',                          /* wordt ook aangeroepen bijwisseling van true naar false.
+	                                                                   regel in de functie dat er niets gebeurd
+	                                                                   als c_visible false is */
+	          },
+	        },
+	        
+	        _go_home: function() {
+	            var lApp = document.querySelector('my-app');  //het polymer element <my-app>
+	            var lAppRouter = lApp.$.approuter;            // het html-element <app-route> met id=approuter
+	            lAppRouter.data={page: ""};                   // vul het data attribute met de homepage url
+	                                                          // door de two way binding in <app-route> en <app-location>
+	                                                          // zal ook de url echt wijzigen
+	          },
+	          
+	        _initializing : function() {
+	        	if (this.c_visible) {                                 // zodra zichtbaar geworden moet er wat worden gedaan
+	            	if (this.c_rol=="docent") {                        // voor docenten
+	                  this._presentie_ophalen_request_handler();    //    haal info op van server
+	                } else {                                            // na handmatige url wijziging zonder login
+	                  var lToast = this.$.toast_invalid_aanroep;        // meldt ongeldige aanroep
+	                  lToast.open();                                    /* het sluiten van deze error verwijst  */
+	                                                                    /* terug naar home page */
+	                }
+	        	}
+	        },
+	          
+	        _presentie_ophalen_request_handler: function() {
+	      	  console.log("_presentie_ophalen_request_handler user="+this.c_username);
+	      	  this.$.ajax_presentie_ophalen.contentType="application/json";
+	      	  this.$.ajax_presentie_ophalen.body={
+	      		"date":"2017-02-06",
+	      		"start-time":"10:00",
+	      		"location":"DL200-3.91 (52)"
+	      	  }
+	      	  this.$.ajax_presentie_ophalen.generateRequest();
+	        },
+	        
+	       _presentie_ophalen_response_handler: function(request) {
+	      	 console.log("_presentie_ophalen_response_handler aantal afmeldingen="+request.detail.response.length);
+	      	 this.studenten = request.detail.response;
+	       },
+	       
+	  	});
+      })();
   </script>
 </dom-module>

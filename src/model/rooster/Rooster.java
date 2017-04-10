@@ -22,13 +22,22 @@ public class Rooster {
 	
 	public Les getLes(LocalDate datum, LocalTime startTijd, String locatie){
 		for(Les les : deLessen){
+			@SuppressWarnings("rawtypes")
 			ArrayList lesinfo = les.getInfo();
-			if(lesinfo.get(0).equals(datum) &&
-					lesinfo.get(1).equals(startTijd) &&
-					lesinfo.get(5).equals(locatie))
+			LocalDate lDatum = (LocalDate) lesinfo.get(0);
+			LocalTime lStartTijd = (LocalTime) lesinfo.get(1);
+			String lLocatie = (String) lesinfo.get(5);
+			
+			System.out.println(lDatum.toString() + lStartTijd.toString());
+			
+			if(lDatum.equals(datum) &&
+					lStartTijd.equals(startTijd) &&
+					lLocatie.equals(locatie)){
+				System.out.println("rooster heeftde les gevonden");
 				return les;
+			}
 		}
-		
+		System.out.println("Rooster heeft de les niet gevonden met" + datum.toString() + startTijd.toString());
 		return null;
 	}
 			

@@ -51,7 +51,7 @@ public class PresentieController implements Handler{
 		Calendar lDatum_afmeldingInCal = PrIS.standaardDatumStringToCal(lJsonObjectIn.getString("date")).getInstance();
 		LocalDateTime dateTime = LocalDateTime.ofInstant(lDatum_afmeldingInCal.toInstant(), ZoneId.systemDefault());
 		LocalDate lDatum_afmeldingInLD = dateTime.toLocalDate();
-		LocalTime lStartTijd_afmelding = dateTime.toLocalTime();
+		LocalTime lStartTijd_afmelding = LocalTime.parse(lJsonObjectIn.getString("start-time"));
 		
 		// locatie van de les van de afmelding uit de request halen
 		String lLocatie_afmelding = lJsonObjectIn.getString("location");
@@ -90,43 +90,49 @@ public class PresentieController implements Handler{
 		
 		// calendar object converten naar LocalDate en LocalTime
 		@SuppressWarnings("static-access")
-		Calendar lDatum_LesInCal = PrIS.standaardDatumStringToCal(lJsonObjectIn.getString("date")).getInstance();
-		LocalDateTime dateTime = LocalDateTime.ofInstant(lDatum_LesInCal.toInstant(), ZoneId.systemDefault());
-		LocalDate lDatum_LesInLD = dateTime.toLocalDate();
-		LocalTime lStartTijd_Les = dateTime.toLocalTime();
+		LocalDate lDatum_Les = LocalDate.parse(lJsonObjectIn.getString("date"));
+		
+		LocalTime lStartTijd_Les = LocalTime.parse(lJsonObjectIn.getString("start-time"));
 		
 		// locatie van de les de request halen
 		String lLocatie_Les = lJsonObjectIn.getString("location");
 		
 		// les ophalen waarvoor de presentie opgehaald moet worden
-		Les lLes = hetRooster.getLes(lDatum_LesInLD, lStartTijd_Les, lLocatie_Les);
+		Les lLes = hetRooster.getLes(lDatum_Les, lStartTijd_Les, lLocatie_Les);
+		
+		if(lLes == null){
+			System.out.println("les niet gevonden");
+		} else {
+			System.out.println("les gevonden");
+		}
 		
 		JsonArrayBuilder lJsonArrayBuilder = Json.createArrayBuilder();
 		ArrayList<Afmelding> lAfmeldingenVanLes = lLes.getAfmeldingen();
-		
-		for(Afmelding lAfmelding : lAfmeldingenVanLes){
-			Persoon tempPersoon = lAfmelding.getAfgemelde();
-			
-			// als de afgemelde niet een student is gaat hij naar de volgende afmelding
-			if(!(tempPersoon instanceof Student)){
-				continue;
-			}
-			
-			// info van afmelding ophalen
-			Student persoonVanAfmelding = (Student) tempPersoon;
-			int nummerVanPersoon = persoonVanAfmelding.getStudentNummer();
-			String naamVanPersson = persoonVanAfmelding.getVoornaam() + " " + persoonVanAfmelding.getVolledigeAchternaam();
-			
-			JsonObjectBuilder lJsonObjectBuilderVoorAfmelding = Json.createObjectBuilder();
-			
-			// info in json object zetten
-			lJsonObjectBuilderVoorAfmelding
-				.add("number", nummerVanPersoon)
-				.add("name", naamVanPersson)
-				.add("type", lAfmelding.getType());
-			
-			// json object aan json array toevoegen
-			lJsonArrayBuilder.add(lJsonObjectBuilderVoorAfmelding);
+		if(lAfmeldingenVanLes != null){
+  		for(Afmelding lAfmelding : lAfmeldingenVanLes){
+  			Persoon tempPersoon = lAfmelding.getAfgemelde();
+  			
+  			// als de afgemelde niet een student is gaat hij naar de volgende afmelding
+  			if(!(tempPersoon instanceof Student)){
+  				continue;
+  			}
+  			
+  			// info van afmelding ophalen
+  			Student persoonVanAfmelding = (Student) tempPersoon;
+  			int nummerVanPersoon = persoonVanAfmelding.getStudentNummer();
+  			String naamVanPersson = persoonVanAfmelding.getVoornaam() + " " + persoonVanAfmelding.getVolledigeAchternaam();
+  			
+  			JsonObjectBuilder lJsonObjectBuilderVoorAfmelding = Json.createObjectBuilder();
+  			
+  			// info in json object zetten
+  			lJsonObjectBuilderVoorAfmelding
+  				.add("number", nummerVanPersoon)
+  				.add("name", naamVanPersson)
+  				.add("type", lAfmelding.getType());
+  			
+  			// json object aan json array toevoegen
+  			lJsonArrayBuilder.add(lJsonObjectBuilderVoorAfmelding);
+  		}
 		}
 		
 		// en dan als alle afmeldingen gecheckt zijn antwoorden met de json array
