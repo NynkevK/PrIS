@@ -42,6 +42,9 @@
       	position:absolute;
 	    left:300px;
       }
+      .my-input {
+      	width:140px;
+      }
       .my-bg {
          background: green;
       }
@@ -103,31 +106,6 @@
 	  <input placeholder="Type hier je reden" value="{{reden::input}}" rows="3"></input>
 	</paper-input-container>
     </p>
-
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-    <paper-dropdown-menu label="Cursus">
-        <paper-listbox class="dropdown-content" selected="0">
-            <paper-item>TICT-V1OODC-15_2017</paper-item>
-            <paper-item>V1B</paper-item>
-            <paper-item>V1C</paper-item>
-            <paper-item>V1D</paper-item>
-            <paper-item>V1E</paper-item>
-
-        </paper-listbox>
-    </paper-dropdown-menu>
-
-    <form>
-        </br>
-        <paper-radio-group selected="{{radioSelected}}">
-            <paper-radio-button name="aan">Aanwezig</paper-radio-button>
-            <paper-radio-button name="afw">Afwezig</paper-radio-button>
-            <paper-radio-button name="afg">Afgemeld</paper-radio-button>
-        </paper-radio-group>
-    </form>
-=======
->>>>>>> Stashed changes
     <paper-dropdown-menu label="LES">
 	  <paper-listbox class="dropdown-content" selected="1">
 	    <paper-item>TCIF-V1AUI-15_2016</paper-item>
@@ -144,13 +122,6 @@
 		  <paper-radio-button name="afg">Afgemeld</paper-radio-button>
 		</paper-radio-group>
      </form>
-<<<<<<< Updated upstream
-=======
->>>>>>> origin/master
->>>>>>> Stashed changes
-    <section>
-
-  </section>
       <paper-button
       id="annuleren_button"
       class="my-button"
@@ -165,8 +136,10 @@
       raised>
         Verzenden
     </paper-button>
-
-
+    <paper-input class="my-input" label="Datum" autofocus type="date" value="{{datum}}"></paper-input>
+	<paper-input class="my-input" label="Start-tijd" placeholder="00:00" value="{{start-tijd}}"></paper-input>
+	<paper-input class="my-input" label="Locatie" placeholder="DL200-3.91 (52)" value="{{locatie}}"></paper-input>
+	
     <iron-ajax
       id="ajax_presentie_ophalen"
       method="POST"
