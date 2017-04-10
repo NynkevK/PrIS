@@ -85,22 +85,26 @@
     </paper-toast>
     
     <paper-toast
-      id="toast_mislukt_oproep"
+      id="toast_mislukt_oproep1"
       duration="0"
       text="Vul een reden in!">
-        <paper-button on-click="_toast_clicked2" class="toast-button">Sluiten</paper-button>
+        <paper-button on-click="_toast_clicked1" class="toast-button">Sluiten</paper-button>
     </paper-toast>
     
     <paper-toast
       id="toast_mislukt_oproep2"
       duration="0"
       text="Vink een status aan!">
+        <paper-button on-click="_toast_clicked2" class="toast-button">Sluiten</paper-button>
+    </paper-toast>
+    
+    <paper-toast
+      id="toast_mislukt_oproep3"
+      duration="0"
+      text="Vul de lesgegevens in!">
         <paper-button on-click="_toast_clicked3" class="toast-button">Sluiten</paper-button>
     </paper-toast>
 
-      <template is="dom-repeat" items="{{lessen}}">
-        <div><span>{{item.date}} </span><span>{{item.teacher}} </span><span class="my-type">{{item.course}}</span></div>
-    </template>
     <paper-input-container always-float-label>
       <p>Reden</p>
 	  <input placeholder="Type hier je reden" value="{{reden::input}}" rows="3"></input>
@@ -132,7 +136,7 @@
     <paper-button
       id="verzenden_button"
       class="my-button2"
-      on-click="_afmelding_opslaan_request_handler"
+      on-click="_verzenden"
       raised>
         Verzenden
     </paper-button>
@@ -184,6 +188,27 @@
 	   	  
 	     },
 	     
+	     _verzenden:function() {
+      	if (this.reden == null) {
+      		var lToast = this.$.toast_mislukt_oproep1;        // meldt ongeldige aanroep
+            lToast.open(); 
+            }
+        else if (this.radioSelected == null) {
+            var lToast = this.$.toast_mislukt_oproep2;        // meldt ongeldige aanroep
+            lToast.open(); 
+            }
+        else if (this.starttijd == "" || this.locatie == "" || this.datum == "") {
+            var lToast = this.$.toast_mislukt_oproep3;        // meldt ongeldige aanroep
+            lToast.open(); 
+            }
+        else {
+        	this._afmelding_opslaan_request_handler();
+            var lToast = this.$.toast_gelukt_oproep;        // meldt ongeldige aanroep
+            lToast.open();                      	
+            };
+          			
+         },
+	     
 	     _afmelding_opslaan_request_handler: function(){
 	   	  console.log("_presentie_ophalen_request_handler user="+this.c_username);
 	   	  this.$.ajax_afmelding_ophalen.contentType="application/json";
@@ -212,35 +237,23 @@
 	         lAppRouter.data={page: ""};
 	        },
 	        
-	     _verzenden:function() {
-	     	this.reden =="niks"; 
-	     	if (this.reden == null) {
-	     		var lToast = this.$.toast_mislukt_oproep;        // meldt ongeldige aanroep
-	           lToast.open(); 
-	           }
-	           else if (this.radioSelected == null) {
-	           var lToast = this.$.toast_mislukt_oproep2;        // meldt ongeldige aanroep
-	           lToast.open(); 
-	           }
-	           else {
-	           var lToast = this.$.toast_gelukt_oproep;        // meldt ongeldige aanroep
-	           lToast.open();                      	
-	           };
-			
-	        },
-	     _toast_clicked: function(e) {
-	        var lToast = this.$.toast_gelukt_oproep;        // meldt ongeldige aanroep
-	        lToast.toggle();
-	        this._go_home();
-	       },
-	     _toast_clicked2: function(e) {
-	        var lToast = this.$.toast_mislukt_oproep;        // meldt ongeldige aanroep
-	        lToast.toggle();
-	       },
-	     _toast_clicked3: function(e) {
-	        var lToast = this.$.toast_mislukt_oproep2;        // meldt ongeldige aanroep
-	        lToast.toggle();
-	       },
+      _toast_clicked: function(e) {
+         var lToast = this.$.toast_gelukt_oproep;        // meldt ongeldige aanroep
+         lToast.toggle();
+         this._go_home();
+        },
+      _toast_clicked1: function(e) {
+         var lToast = this.$.toast_mislukt_oproep1;        // meldt ongeldige aanroep
+         lToast.toggle();
+        },
+      _toast_clicked2: function(e) {
+         var lToast = this.$.toast_mislukt_oproep2;        // meldt ongeldige aanroep
+         lToast.toggle();
+        },
+      _toast_clicked3: function(e) {
+         var lToast = this.$.toast_mislukt_oproep3;        // meldt ongeldige aanroep
+         lToast.toggle();
+        },
 	     _go_home: function() {
 	         var lApp = document.querySelector('my-app');
 	         var lAppRouter = lApp.$.approuter;            
