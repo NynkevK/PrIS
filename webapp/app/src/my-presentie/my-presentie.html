@@ -67,16 +67,7 @@
         <span class="my-label">Klassenlijst V1E </span>
         <span class="my-type"></span>
         </div>
-    <template is="dom-repeat" items="[[studenten]]">
-        <div><span>{{item.number}} </span><span>{{item.name}} </span><span class="my-type"><paper-dropdown-menu>
-		  <paper-listbox class="dropdown-content" selected={{item.type}} attr-for-selected="data-value">
-		    <paper-item data-value="aanwezig">Aanwezig</paper-item>
-		    <paper-item data-value="afwezig">Afwezig</paper-item>
-		    <paper-item data-value="afgemeld">Afgemeld</paper-item>
-		  </paper-listbox>
-		</paper-dropdown-menu></span>
-
-        <!-- <template is="dom-bind">
+            <!-- <template is="dbind">
   <iron-ajax url="webapp/app/src/my-presentie/data.json" last-response="{{data}}" auto></iron-ajax>
   <iron-data-table items="[[data]]">
     <data-table-column name="First Name">
@@ -123,7 +114,7 @@
       handle-as="json"
       on-response="_presentie_ophalen_response_handler">
     </iron-ajax>
-    
+
     <iron-ajax
       id="ajax_presentie_opslaan"
       method="POST"
@@ -142,13 +133,13 @@
            c_xx  public constant      : one way external databinding [[c_xx]] - geen notify nodig
            xxxx  public               : two way external databinding {{xxxx}} - notify nodig
         */
-        
+
         Polymer({
         	is: 'my-presentie',
-        	
+
 	        properties: {
 	          _c_studenten: {
-	            type: Array,           /* array<student-info>: student-info = {id, firstName, lastName, sameGroup} 
+	            type: Array,           /* array<student-info>: student-info = {id, firstName, lastName, sameGroup}
 											array is constant groepnr is changable */
 	          },
 	          c_rol: {
@@ -165,7 +156,7 @@
 	                                                                   als c_visible false is */
 	          },
 	        },
-	        
+
 	        _go_home: function() {
 	            var lApp = document.querySelector('my-app');  //het polymer element <my-app>
 	            var lAppRouter = lApp.$.approuter;            // het html-element <app-route> met id=approuter
@@ -173,7 +164,7 @@
 	                                                          // door de two way binding in <app-route> en <app-location>
 	                                                          // zal ook de url echt wijzigen
 	          },
-	          
+
 	        _initializing : function() {
 	        	if (this.c_visible) {                                 // zodra zichtbaar geworden moet er wat worden gedaan
 	            	if (this.c_rol=="docent") {                        // voor docenten
@@ -185,7 +176,7 @@
 	                }
 	        	}
 	        },
-	          
+
 	        _presentie_ophalen_request_handler: function() {
 	      	  console.log("_presentie_ophalen_request_handler user="+this.c_username);
 	      	  this.$.ajax_presentie_ophalen.contentType="application/json";
@@ -196,12 +187,12 @@
 	      	  }
 	      	  this.$.ajax_presentie_ophalen.generateRequest();
 	        },
-	        
+
 	       _presentie_ophalen_response_handler: function(request) {
 	      	 console.log("_presentie_ophalen_response_handler aantal afmeldingen="+request.detail.response.length);
 	      	 this.studenten = request.detail.response;
 	       },
-	       
+
 	  	});
       })();
   </script>
