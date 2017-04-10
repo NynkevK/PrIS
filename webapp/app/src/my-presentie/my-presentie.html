@@ -5,6 +5,7 @@
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
 
 <dom-module id="my-presentie">
   <template>
@@ -64,17 +65,29 @@
     <div class="my-title">Presentielijst</div>
     <div class="my-line">
         <span class="my-label">Klassenlijst V1E </span>
-        <span class="my-type">status</span>
+        <span class="my-type"></span>
         </div>
 
+        <!-- <template is="dom-bind">
+  <iron-ajax url="webapp/app/src/my-presentie/data.json" last-response="{{data}}" auto></iron-ajax>
+  <iron-data-table items="[[data]]">
+    <data-table-column name="First Name">
+      <template>[[item.name.first]]</template>
+    </data-table-column>
+    <data-table-column name="Last Name">
+      <template>[[item.name.last]]</template>
+    </data-table-column>
+  </iron-data-table>
+</template> -->
+
     <template is="dom-repeat" items="{{studenten}}">
-        <div><span>{{item.number}} </span><span>{{item.name}} </span><span class="my-type"><paper-dropdown-menu>
+        <div><table style="width:30%"><tr><td align="left"><span>{{item.number}} </span></td><td align="right"><span>{{item.name}} </span></td><td align="right"><span class="my-type"><paper-dropdown-menu>
 		  <paper-listbox class="dropdown-content" selected={{item.type}} attr-for-selected="data-value">
 		    <paper-item data-value="aanwezig">Aanwezig</paper-item>
 		    <paper-item data-value="afwezig">Afwezig</paper-item>
 		    <paper-item data-value="afgemeld">Afgemeld</paper-item>
 		  </paper-listbox>
-		</paper-dropdown-menu></span>
+		</paper-dropdown-menu></span></td></tr></table>
 		</div>
     </template>
 
@@ -119,31 +132,31 @@
             // {number: '1704412', name: 'Ende,van der,Tjibbe', type: 'afwezig'},
             // {number: '1657627', name: 'Holslag, Ruben', type: 'afgemeld'}
 
-            {number: '1702265', name: 'Abdoel, Shafie', type: 'aanwezig'},
-            {number: '1704102', name: 'Bakker, Martijn', type: 'aanwezig'},
-            {number: '1710314', name: 'Brakel,van,Niels', type: 'aanwezig'},
-            {number: '1698194', name: 'Daalhuisen, Niels', type: 'aanwezig'},
-            {number: '1705632', name: 'Diederen, Michiel', type: 'aanwezig'},
-            {number: '1704412', name: 'Ende,van der,Tjibbe', type: 'aanwezig'},
-            {number: '1698311', name: 'Henkes, Wessel', type: 'aanwezig'},
-            {number: '1657627', name: 'Holslag, Ruben', type: 'aanwezig'},
-            {number: '1703385', name: 'Hoogeland, Tim', type: 'aanwezig'},
-            {number: '1699291', name: 'Houweling, Meifeng', type: 'aanwezig'},
-            {number: '1696814', name: 'Kasap, Yasin', type: 'aanwezig'},
+            {number: '1702265', name: 'Abdoel, Shafie       ', type: 'aanwezig'},
+            {number: '1704102', name: 'Bakker, Martijn      ', type: 'afwezig'},
+            {number: '1710314', name: 'Brakel,van,Niels     ', type: 'aanwezig'},
+            {number: '1698194', name: 'Daalhuisen, Niels    ', type: 'aanwezig'},
+            {number: '1705632', name: 'Diederen, Michiel    ', type: 'aanwezig'},
+            {number: '1704412', name: 'Ende,van der,Tjibbe  ', type: 'afgemeld'},
+            {number: '1698311', name: 'Henkes, Wessel       ', type: 'aanwezig'},
+            {number: '1657627', name: 'Holslag, Ruben       ', type: 'aanwezig'},
+            {number: '1703385', name: 'Hoogeland, Tim       ', type: 'aanwezig'},
+            {number: '1699291', name: 'Houweling, Meifeng   ', type: 'aanwezig'},
+            {number: '1696814', name: 'Kasap, Yasin         ', type: 'aanwezig'},
             {number: '1710479', name: 'Koningsveld,van,Nynke', type: 'aanwezig'},
-            {number: '1703511', name: 'Kos, Lourens', type: 'aanwezig'},
-            {number: '1658950', name: 'Lanser, Mark', type: 'aanwezig'},
-            {number: '1704271', name: 'Looman, Jerry', type: 'aanwezig'},
-            {number: '1668229', name: 'Mooy, Michiel', type: 'aanwezig'},
-            {number: '1701957', name: 'Mudde, Ezri', type: 'aanwezig'},
-            {number: '1705943', name: 'Schepers, Douwe', type: 'aanwezig'},
-            {number: '1665013', name: 'Smithjes, Guylian', type: 'aanwezig'},
-            {number: '1702623', name: 'Steenbrink, Steven', type: 'aanwezig'},
-            {number: '1684994', name: 'Verkerk, Jeroen', type: 'aanwezig'},
-            {number: '1706382', name: 'Voncken, Cedric', type: 'aanwezig'},
-            {number: '1696546', name: 'Vruggink, Sam', type: 'aanwezig'},
-            {number: '1703684', name: 'Waard,de,Mats', type: 'aanwezig'},
-            {number: '1707132', name: 'Zandberg, Renske', type: 'aanwezig'}
+            {number: '1703511', name: 'Kos, Lourens         ', type: 'afwezig'},
+            {number: '1658950', name: 'Lanser, Mark         ', type: 'aanwezig'},
+            {number: '1704271', name: 'Looman, Jerry        ', type: 'aanwezig'},
+            {number: '1668229', name: 'Mooy, Michiel        ', type: 'aanwezig'},
+            {number: '1701957', name: 'Mudde, Ezri          ', type: 'aanwezig'},
+            {number: '1705943', name: 'Schepers, Douwe      ', type: 'aanwezig'},
+            {number: '1665013', name: 'Smithjes, Guylian    ', type: 'afgemeld'},
+            {number: '1702623', name: 'Steenbrink, Steven   ', type: 'aanwezig'},
+            {number: '1684994', name: 'Verkerk, Jeroen      ', type: 'aanwezig'},
+            {number: '1706382', name: 'Voncken, Cedric      ', type: 'aanwezig'},
+            {number: '1696546', name: 'Vruggink, Sam        ', type: 'aanwezig'},
+            {number: '1703684', name: 'Waard,de,Mats        ', type: 'aanwezig'},
+            {number: '1707132', name: 'Zandberg, Renske     ', type: 'aanwezig'}
         ];
       },
 
