@@ -153,7 +153,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <a name="absentie" href$="[[_c_baseURL]]absentie" >
             <iron-icon icon="event"></iron-icon>
-            <span>Absentie</span>
+            <span>Rooster</span>
           </a>
 
           <a name="presentie" href$="[[_c_baseURL]]presentie" >
@@ -227,12 +227,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                  title="INSTELLEN SYSTEEMDATUM"
               	 element$="my-systeemdatum">
             <paper-material elevation="1">
-              <!--
-                c_visible="true" als deze section geselecteerd is.
+
+                <!-- c_visible="true" als deze section geselecteerd is.
                 LET OP: boolean values moeten als string doorgegeven worden,
                         vandaar de quotes rondom de function aanroep.
-                        De aanwezige literal waarde wordt met enkele quotes doorgegeven
-              -->
+                        De aanwezige literal waarde wordt met enkele quotes doorgegeven -->
+
               <my-systeemdatum
                 systeemdatumlokaal="{{_systeemdatumlokaal}}"
                 systeemdatumstandaard="{{_systeemdatumstandaard}}"
@@ -242,7 +242,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </section>
 
           <section name="absentie"
-              	   title="ABSENTIE"
+              	   title="Rooster"
               	   element$="my-absentie">
                    <paper-material elevation="1">
                      <my-absentie></my-absentie>
@@ -277,13 +277,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
            </paper-material>
          </section>
 
-          <section name="calendar"
+          <!-- <section name="calendar"
               	   title="CALENDAR"
               	   element$="my-calendar">
                    <paper-material elevation="1">
                      <my-absentie></my-absentie>
                    </paper-material>
-          </section>
+          </section> -->
 
           <section name="login"
               	   title="LOGIN"

@@ -101,11 +101,12 @@
         properties: {
           _password: {
             type: String,
-            value: "geheim",                           /* om snel te testen zonder steeds input te doen */
+            notify: true,
+            value: "geheim"                           /* om snel te testen zonder steeds input te doen */
           },
           rol: {
             type: String,
-            notify: true,
+            notify: true
           },
           username: {
             type: String,
