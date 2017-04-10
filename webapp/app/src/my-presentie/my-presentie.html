@@ -67,14 +67,17 @@
         <span class="my-label">Klassenlijst V1E </span>
         <span class="my-type"></span>
         </div>
-    <template is="dom-repeat" items="[[studenten]]">
-        <div><span>{{item.number}} </span><span>{{item.name}} </span><span class="my-type"><paper-dropdown-menu>
-		  <paper-listbox class="dropdown-content" selected={{item.type}} attr-for-selected="data-value">
-		    <paper-item data-value="aanwezig">Aanwezig</paper-item>
-		    <paper-item data-value="afwezig">Afwezig</paper-item>
-		    <paper-item data-value="afgemeld">Afgemeld</paper-item>
-		  </paper-listbox>
-		</paper-dropdown-menu></span>
+        <template is="dom-repeat" items="{{studenten}}">
+            <div><table style="width:50%"><tr><td align="left"><span>{{item.number}} </span></td><td align="right"><span>{{item.name}} </span></td><td align="right"><span class="my-type">
+              <paper-radio-group class="dropdown-content" selected="{{item.type}}" attr-for-selected="data-value" >
+                    <paper-radio-button data-value="aanwezig">Aanwezig</paper-radio-button>
+                    <paper-radio-button data-value="afwezig">Afwezig</paper-radio-button>
+                    <paper-radio-button data-value="afgemeld">Afgemeld</paper-radio-button>
+              </paper-radio-group>
+            </span>
+          </td><hr></tr></table>
+    		</div>
+        </template><br><br>
 
 
       <paper-button
@@ -178,7 +181,7 @@
 	      	 console.log("_presentie_ophalen_response_handler aantal afmeldingen="+request.detail.response.length);
 	      	 this.studenten = request.detail.response;
 	       },
-	       
+
 	       _presentie_opslaan_requesthandler: function(){
 	    	   console.log("_medestudenten_opslaan_request_handler user="+this.c_username);
 	    	   this.$.ajax_presentie_opslaan.contentType="application/json";
@@ -190,12 +193,12 @@
 	    	   };
 	    	   this.$.ajax_presentie_opslaan.generateRequest();
 	       },
-	       
+
 	       _presentie_opslaan_response_handler: function(request){
 	    	   console.log("_presentie_opslaan_response_handler errorcode="+request.detail.response.errorcode);
 	    	   this._go_home();
 	       },
-	       
+
 	  	});
       })();
   </script>
