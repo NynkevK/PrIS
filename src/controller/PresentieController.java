@@ -168,32 +168,37 @@ public class PresentieController implements Handler{
 			persoonVanAfmelding = informatieSysteem.getDocent(gebruikersNaamVanPersoon);
 		}
 		
-		JsonArray lAfmeldingen_jArray = lJsonObjectIn.getJsonArray("non-appearance");
+		JsonObject lAfmelding_Object = lJsonObjectIn.getJsonObject("non-appearance");
 		
-		if(lAfmeldingen_jArray != null){
-			for(int i=0;i<lAfmeldingen_jArray.size();i++){
-				JsonObject lAfmelding_jsonObj = lAfmeldingen_jArray.getJsonObject(i);
-				
-				// info verzamelen om de les mee op te vragen
-				
-				// datum en begin tijd ophalen
-				LocalDate lDatumVanAfmelding = LocalDate.parse(lAfmelding_jsonObj.getString("date"));
-				LocalTime lStartTijdVanAfmelding = LocalTime.parse(lAfmelding_jsonObj.getString("start-time"));
-				
-				// locatie van de les van de afmelding uit de request halen
-				String lLocatie_afmelding = lAfmelding_jsonObj.getString("location");
-				
-				// les ophalen waarvoor afgemeld is
-				Les lLesVan_afmelding = hetRooster.getLes(lDatumVanAfmelding, lStartTijdVanAfmelding, lLocatie_afmelding);
-				
-				// reden en type van de afmelding uit de request halen
-				String lTypeAfmelding = lAfmelding_jsonObj.getString("type");
-				String lRedenAfmelding = lAfmelding_jsonObj.getString("reason");
-				
-				// afmelding toevoegen aan les
-				lLesVan_afmelding.voegAfmeldingMetRedeToe(lTypeAfmelding, lRedenAfmelding, persoonVanAfmelding);
-				
+		if(lAfmelding_Object != null){
+			
+			// info verzamelen om de les mee op te vragen
+			
+			// datum en begin tijd ophalen
+			LocalDate lDatumVanAfmelding = LocalDate.parse(lAfmelding_Object.getString("date"));
+			LocalTime lStartTijdVanAfmelding = LocalTime.parse(lAfmelding_Object.getString("start-time"));
+			
+			// locatie van de les van de afmelding uit de request halen
+			String lLocatie_afmelding = lAfmelding_Object.getString("location");
+			
+			// les ophalen waarvoor afgemeld is
+			System.out.println(lDatumVanAfmelding.toString() + lStartTijdVanAfmelding.toString() + lLocatie_afmelding);
+			Les lLesVan_afmelding = hetRooster.getLes(lDatumVanAfmelding, lStartTijdVanAfmelding, lLocatie_afmelding);
+			if(lLesVan_afmelding == null){
+				System.out.println("les niet gevonden");
+			} else {
+				System.out.println("les gevonden");
 			}
+			
+			
+			// reden en type van de afmelding uit de request halen
+			String lTypeAfmelding = lAfmelding_Object.getString("type");
+			String lRedenAfmelding = lAfmelding_Object.getString("reason");
+			
+			// afmelding toevoegen aan les
+			lLesVan_afmelding.voegAfmeldingMetRedeToe(lTypeAfmelding, lRedenAfmelding, persoonVanAfmelding);
+			
+		
 		}
 		
 		// output json object aanmaken en errorcode toevoegen

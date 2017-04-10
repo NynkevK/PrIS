@@ -64,7 +64,7 @@
 
     <div class="my-title">Presentielijst</div>
     <div class="my-line">
-        <span class="my-label">Klassenlijst V1E </span>
+        <span class="my-label"></span>
         <span class="my-type"></span>
         </div>
         <template is="dom-repeat" items="{{studenten}}">
@@ -144,6 +144,18 @@
 	                                                                   regel in de functie dat er niets gebeurd
 	                                                                   als c_visible false is */
 	          },
+	          c_datum: {
+	        	  type: String,
+	        	  value: "2017-02-06",
+	          },
+	          c_startTijd: {
+	        	  type: String,
+	        	  value: "10:00"
+	          },
+	          c_locatie: {
+	        	  type: String,
+	        	  value: "DL200-3.91 (52)"
+	          }
 	        },
 
 	        _go_home: function() {
@@ -170,9 +182,9 @@
 	      	  console.log("_presentie_ophalen_request_handler user="+this.c_username);
 	      	  this.$.ajax_presentie_ophalen.contentType="application/json";
 	      	  this.$.ajax_presentie_ophalen.body={
-	      		"date":"2017-02-06",
-	      		"start-time":"10:00",
-	      		"location":"DL200-3.91 (52)"
+	      			"date":this.c_datum,
+	   	      		"start-time":this.c_startTijd,
+	   	      		"location":this.c_locatie
 	      	  }
 	      	  this.$.ajax_presentie_ophalen.generateRequest();
 	        },
@@ -186,9 +198,9 @@
 	    	   console.log("_medestudenten_opslaan_request_handler user="+this.c_username);
 	    	   this.$.ajax_presentie_opslaan.contentType="application/json";
 	    	   this.$.ajax_presentie_opslaan.body={
-	    			"date":"2017-02-06",
-	   	      		"start-time":"10:00",
-	   	      		"location":"DL200-3.91 (52)",
+	    			"date":this.c_datum,
+	   	      		"start-time":this.c_startTijd,
+	   	      		"location":this.c_locatie,
 	   	      		"non-appearance":this.studenten
 	    	   };
 	    	   this.$.ajax_presentie_opslaan.generateRequest();

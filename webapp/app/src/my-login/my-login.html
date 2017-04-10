@@ -158,8 +158,10 @@
           console.log("_ophalen_login_response_handler username="+this.username);
           if (this.username == "student") {
           this.rol = "student";
+          this.username = "robin.aalten@student.hu.nl"
           } else if (this.username == "docent") {
           this.rol = "docent";
+          this.username = "john.smeets@hu.nl"
           }
           this._password = "geheim"; /* om snel te kunnen testen is dit verwijderd */
           if (this.rol == "undefined") {                    //als aanloggen mislukt

@@ -117,9 +117,9 @@
 	 <form>
 	 </br>
 		<paper-radio-group selected="{{radioSelected}}">
-		  <paper-radio-button name="aan">Aanwezig</paper-radio-button>
-		  <paper-radio-button name="afw">Afwezig</paper-radio-button>
-		  <paper-radio-button name="afg">Afgemeld</paper-radio-button>
+		  <paper-radio-button name="aanwezig">Aanwezig</paper-radio-button>
+		  <paper-radio-button name="afwezig">Afwezig</paper-radio-button>
+		  <paper-radio-button name="afgemeld">Afgemeld</paper-radio-button>
 		</paper-radio-group>
      </form>
       <paper-button
@@ -132,71 +132,123 @@
     <paper-button
       id="verzenden_button"
       class="my-button2"
-      on-click="_verzenden"
+      on-click="_afmelding_opslaan_request_handler"
       raised>
         Verzenden
     </paper-button>
-    <paper-input class="my-input" label="Datum" autofocus type="date" value="{{datum}}"></paper-input>
-	<paper-input class="my-input" label="Start-tijd" placeholder="00:00" value="{{start-tijd}}"></paper-input>
+    <paper-input class="my-input" id="datum_element" label="Datum" autofocus type="date" value="{{datum}}"></paper-input>
+	<paper-input class="my-input" label="Start-tijd" placeholder="12:00" value="{{start_tijd}}"></paper-input>
 	<paper-input class="my-input" label="Locatie" placeholder="DL200-3.91 (52)" value="{{locatie}}"></paper-input>
 	
     <iron-ajax
-      id="ajax_presentie_ophalen"
+      id="ajax_afmelding_ophalen"
       method="POST"
-      url="/student/medestudenten/ophalen"
+      url="/persoon/presentie/opslaan"
       handle-as="json"
-      on-response="_presentie_ophalen">
+      on-response="_afmelding_opslaan_response_handler">
     </iron-ajax>
 
   </template>
 
   <script>
-    Polymer({
-      is: 'my-afmelden',
-
-
-      _annuleer: function() {
-          var lApp = document.querySelector('my-app');
-          var lAppRouter = lApp.$.approuter;
-          lAppRouter.data={page: ""};
-         },
-         
-      _verzenden:function() {
-      	this.reden =="niks"; 
-      	if (this.reden == null) {
-      		var lToast = this.$.toast_mislukt_oproep;        // meldt ongeldige aanroep
-            lToast.open(); 
-            }
-            else if (this.radioSelected == null) {
-            var lToast = this.$.toast_mislukt_oproep2;        // meldt ongeldige aanroep
-            lToast.open(); 
-            }
-            else {
-            var lToast = this.$.toast_gelukt_oproep;        // meldt ongeldige aanroep
-            lToast.open();                      	
-            };
+  (function(){
+	  'use strict';
+      /* _xxxx private              : geen external data binding      - geen notify
+         _c_xx private constant     : geen external binding, constant - geen notify
+         c_xx  public constant      : one way external databinding [[c_xx]] - geen notify nodig
+         xxxx  public               : two way external databinding {{xxxx}} - notify nodig
+      */ 
+	  
+	  Polymer({
+	     is: 'my-afmelden',
+	
+	     properties: {
+	   	  c_username: {
+	   		  type: String,
+	   	  },
+	   	  radioSelected: {
+	   		  type: String,
+	   	  },
+	   	  datum: {
+	   		  type: String,
+	   		  value: "2017-02-06"
+	   	  },
+	   	  start_tijd:{
+	   		type: String,
+	   		value:"12:00",
+	   	  },
+	   	  locatie: {
+	   		  type: String,
+	   		  value: "DL200-3.83 (30)",
+	   	  },
+	   	  
+	     },
+	     
+	     _afmelding_opslaan_request_handler: function(){
+	   	  console.log("_presentie_ophalen_request_handler user="+this.c_username);
+	   	  this.$.ajax_afmelding_ophalen.contentType="application/json";
+	   	  this.$.ajax_afmelding_ophalen.body={
+	   			"username": this.c_username,
+	   			"non-appearance":{
+	   			"date":this.datum,
+	   	      	"start-time":this.start_tijd,
+	   	      	"location":this.locatie,
+	   	      	"type":this.radioSelected,
+	   	      	"reason":this.reden}
+	   	  }
+	   	  console.log(this.datum)
+	   	  console.log(this.$.ajax_afmelding_ophalen.body);
+	   	  this.$.ajax_afmelding_ophalen.generateRequest();
+	     },
+	   
+	     _afmelding_opslaan_response_handler: function(request){
+	   	  console.log(this.c_username + " afgemeld voor een les");
+	   	  
+	     },
+	     
+	     _annuleer: function() {
+	         var lApp = document.querySelector('my-app');
+	         var lAppRouter = lApp.$.approuter;
+	         lAppRouter.data={page: ""};
+	        },
+	        
+	     _verzenden:function() {
+	     	this.reden =="niks"; 
+	     	if (this.reden == null) {
+	     		var lToast = this.$.toast_mislukt_oproep;        // meldt ongeldige aanroep
+	           lToast.open(); 
+	           }
+	           else if (this.radioSelected == null) {
+	           var lToast = this.$.toast_mislukt_oproep2;        // meldt ongeldige aanroep
+	           lToast.open(); 
+	           }
+	           else {
+	           var lToast = this.$.toast_gelukt_oproep;        // meldt ongeldige aanroep
+	           lToast.open();                      	
+	           };
 			
-         },
-      _toast_clicked: function(e) {
-         var lToast = this.$.toast_gelukt_oproep;        // meldt ongeldige aanroep
-         lToast.toggle();
-         this._go_home();
-        },
-      _toast_clicked2: function(e) {
-         var lToast = this.$.toast_mislukt_oproep;        // meldt ongeldige aanroep
-         lToast.toggle();
-        },
-      _toast_clicked3: function(e) {
-         var lToast = this.$.toast_mislukt_oproep2;        // meldt ongeldige aanroep
-         lToast.toggle();
-        },
-      _go_home: function() {
-          var lApp = document.querySelector('my-app');
-          var lAppRouter = lApp.$.approuter;            
-          lAppRouter.data={page: ""};                   
-        },
-
-
-    });
+	        },
+	     _toast_clicked: function(e) {
+	        var lToast = this.$.toast_gelukt_oproep;        // meldt ongeldige aanroep
+	        lToast.toggle();
+	        this._go_home();
+	       },
+	     _toast_clicked2: function(e) {
+	        var lToast = this.$.toast_mislukt_oproep;        // meldt ongeldige aanroep
+	        lToast.toggle();
+	       },
+	     _toast_clicked3: function(e) {
+	        var lToast = this.$.toast_mislukt_oproep2;        // meldt ongeldige aanroep
+	        lToast.toggle();
+	       },
+	     _go_home: function() {
+	         var lApp = document.querySelector('my-app');
+	         var lAppRouter = lApp.$.approuter;            
+	         lAppRouter.data={page: ""};                   
+	       },
+	
+	
+	   });
+	})();
   </script>
 </dom-module>
