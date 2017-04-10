@@ -5,15 +5,16 @@
 <link rel="import" href="../../bower_components/core-selector/core-selector.html">
 <link rel="import" href="../../bower_components/core-a11y-keys/core-a11y-keys.html">
 <link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
-<script src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="../webcomponentsjs/webcomponents-lite.js"></script>
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">`
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 
 
 
 <dom-module id="my-afmelden">
-    <template>
+  <template>
     <style>
       :host {
         display: block;
@@ -26,6 +27,12 @@
         border-bottom: 1px solid red; /*#1a9fd9; */  /* a red line */
         padding-bottom: 2px;                         /* space above the border line */
       }
+      .toast-button {
+        text-transform: none;
+        color: white;                           /* white tekst */
+        background: #1a9fd9;                    /* kind of blue */
+        --paper-button-ink-color: #00567B;      /* kind of dark blue */
+      }
       .my-detail {
         font-size: 12px;
         margin-bottom: 0px;
@@ -34,6 +41,9 @@
       .my-type {
       	position:absolute;
 	    left:300px;
+      }
+      .my-bg {
+         background: green;
       }
       .my-line {
          display: flex;
@@ -63,70 +73,129 @@
     </style>
 
     <div class="my-title">Afmelden</div>
+    
+    <paper-toast
+      id="toast_gelukt_oproep"
+      duration="0"
+      text="Gegevens zijn opgeslagen!">
+        <paper-button on-click="_toast_clicked" class="toast-button">Terug naar home page</paper-button>
+    </paper-toast>
+    
+    <paper-toast
+      id="toast_mislukt_oproep"
+      duration="0"
+      text="Vul een reden in!">
+        <paper-button on-click="_toast_clicked2" class="toast-button">Sluiten</paper-button>
+    </paper-toast>
+    
+    <paper-toast
+      id="toast_mislukt_oproep2"
+      duration="0"
+      text="Vink een status aan!">
+        <paper-button on-click="_toast_clicked3" class="toast-button">Sluiten</paper-button>
+    </paper-toast>
 
       <template is="dom-repeat" items="{{lessen}}">
         <div><span>{{item.date}} </span><span>{{item.teacher}} </span><span class="my-type">{{item.course}}</span></div>
     </template>
     <paper-input-container always-float-label>
-        <p>Reden</p>
-        <textarea rows="3"></textarea>
-    </paper-input-container>
+      <p>Reden</p>
+	  <input placeholder="Type hier je reden" value="{{reden::input}}" rows="3"></input>
+	</paper-input-container>
     </p>
 
-    <paper-dropdown-menu label="Klas">
-        <paper-listbox class="dropdown-content" selected="0">
-            <paper-item>V1A</paper-item>
-            <paper-item>V1B</paper-item>
-            <paper-item>V1C</paper-item>
-            <paper-item>V1D</paper-item>
-            <paper-item>V1E</paper-item>
+    <paper-dropdown-menu label="LES">
+	  <paper-listbox class="dropdown-content" selected="1">
+	    <paper-item>TCIF-V1AUI-15_2016</paper-item>
+	    <paper-item>TICT-V1GP-15_2016</paper-item>
+	    <paper-item>TICT-V1OODC-15_2016</paper-item>
+	  </paper-listbox>
+	</paper-dropdown-menu>
 
-        </paper-listbox>
-    </paper-dropdown-menu>
-
-    <form>
-        </br>
-        <paper-radio-group selected="{{radioSelected}}">
-            <paper-radio-button name="aan">Aanwezig</paper-radio-button>
-            <paper-radio-button name="afw">Afwezig</paper-radio-button>
-            <paper-radio-button name="afg">Afgemeld</paper-radio-button>
-        </paper-radio-group>
-    </form>
+	 <form>
+	 </br>
+		<paper-radio-group selected="{{radioSelected}}">
+		  <paper-radio-button name="aan">Aanwezig</paper-radio-button>
+		  <paper-radio-button name="afw">Afwezig</paper-radio-button>
+		  <paper-radio-button name="afg">Afgemeld</paper-radio-button>
+		</paper-radio-group>
+     </form>
     <section>
 
-    </section>
-    <paper-button id="annuleren_button" class="my-button" on-click="_annuleer" raised>
+  </section>
+      <paper-button
+      id="annuleren_button"
+      class="my-button"
+      on-click="_annuleer"
+      raised>
         Annuleer
     </paper-button>
-    <paper-button id="verzenden_button" class="my-button2" on-click="_verzenden" raised>
+    <paper-button
+      id="verzenden_button"
+      class="my-button2"
+      on-click="_verzenden"
+      raised>
         Verzenden
     </paper-button>
 
 
-    <iron-ajax id="ajax_presentie_ophalen" method="POST" url="/student/medestudenten/ophalen" handle-as="json" on-response="_presentie_ophalen">
+    <iron-ajax
+      id="ajax_presentie_ophalen"
+      method="POST"
+      url="/student/medestudenten/ophalen"
+      handle-as="json"
+      on-response="_presentie_ophalen">
     </iron-ajax>
 
-    </template>
+  </template>
 
-    <script>
-        Polymer({
-            is: 'my-afmelden',
+  <script>
+    Polymer({
+      is: 'my-afmelden',
 
 
-            _annuleer: function() {
-                var lApp = document.querySelector('my-app');
-                var lAppRouter = lApp.$.approuter;
-                lAppRouter.data = {
-                    page: ""
-                };
-            },
-            _verzenden: function() {
-                if (hour < 18) {
-                    greeting = "Good day";
-                }
+      _annuleer: function() {
+          var lApp = document.querySelector('my-app');
+          var lAppRouter = lApp.$.approuter;
+          lAppRouter.data={page: ""};
+         },
+         
+      _verzenden:function() {
+      	this.reden =="niks"; 
+      	if (this.reden == null) {
+      		var lToast = this.$.toast_mislukt_oproep;        // meldt ongeldige aanroep
+            lToast.open(); 
             }
+            else if (this.radioSelected == null) {
+            var lToast = this.$.toast_mislukt_oproep2;        // meldt ongeldige aanroep
+            lToast.open(); 
+            }
+            else {
+            var lToast = this.$.toast_gelukt_oproep;        // meldt ongeldige aanroep
+            lToast.open();                      	
+            };
+			
+         },
+      _toast_clicked: function(e) {
+         var lToast = this.$.toast_gelukt_oproep;        // meldt ongeldige aanroep
+         lToast.toggle();
+         this._go_home();
+        },
+      _toast_clicked2: function(e) {
+         var lToast = this.$.toast_mislukt_oproep;        // meldt ongeldige aanroep
+         lToast.toggle();
+        },
+      _toast_clicked3: function(e) {
+         var lToast = this.$.toast_mislukt_oproep2;        // meldt ongeldige aanroep
+         lToast.toggle();
+        },
+      _go_home: function() {
+          var lApp = document.querySelector('my-app');
+          var lAppRouter = lApp.$.approuter;            
+          lAppRouter.data={page: ""};                   
+        },
 
 
-        });
-    </script>
+    });
+  </script>
 </dom-module>
