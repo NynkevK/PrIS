@@ -1,5 +1,7 @@
 package model.rooster;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import model.klas.Klas;
@@ -16,6 +18,18 @@ public class Rooster {
 		if(!(deLessen.contains(les))){
 			getLessen().add(les);
 		}
+	}
+	
+	public Les getLes(LocalDate datum, LocalTime startTijd, String locatie){
+		for(Les les : deLessen){
+			ArrayList lesinfo = les.getInfo();
+			if(lesinfo.get(0).equals(datum) &&
+					lesinfo.get(1).equals(startTijd) &&
+					lesinfo.get(5).equals(locatie))
+				return les;
+		}
+		
+		return null;
 	}
 			
 	public ArrayList<Les> getLessen() {
