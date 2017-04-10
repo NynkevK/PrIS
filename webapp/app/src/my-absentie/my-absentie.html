@@ -44,38 +44,66 @@
                <tbody>
                  <template is="dom-repeat" items="[[lessen]]">
                    <tr>
-                     <td>[[item.datum]]</td>
-                     <td>[[item.starttijd]]</td>
-                     <td>[[item.eindtijd]]</td>
-                     <td>[[item.les]]</td>
-                     <td>[[item.docent]]</td>
-                     <td>[[item.locatie]]</td>
-                     <td>[[item.klas]]</td>
+                     <td>[[item.date]]</td>
+                     <td>[[item.start_time]]</td>
+                     <td>[[item.end_time]]</td>
+                     <td>[[item.course]]</td>
+                     <td>[[item.teacher]]</td>
+                     <td>[[item.location]]</td>
+                     <td>[[item.class_code]]</td>
                      <td><paper-icon-button  id="presentie_melden" icon="menu"></paper-icon-button></td>
                    </tr>
                  </template>
                </tbody>
              </table>
            </vaadin-grid>
+           <iron-ajax
+		      id="ajax_rooster_ophalen_klas"
+		      method="POST"
+		      url="/rooster/ophalen/klas"
+		      handle-as="json"
+		      on-response="_rooster_ophalen_klas_response_handler">
+		   </iron-ajax>
+
+		<iron-ajax
+	      id="ajax_rooster_ophalen_docent"
+	      method="POST"
+	      url="/rooster/ophalen/klas"
+	      handle-as="json"
+	      on-response="_rooster_ophalen_docent_response_handler">
+	    </iron-ajax>
          </template>
        </div>
 
+	
 
   <script>
+  (function(){
+		'use strict';
+      /* _xxxx private              : geen external data binding      - geen notify
+         _c_xx private constant     : geen external binding, constant - geen notify
+         c_xx  public constant      : one way external databinding [[c_xx]] - geen notify nodig
+         xxxx  public               : two way external databinding {{xxxx}} - notify nodig
+      */
       Polymer({
           is: 'my-absentie',
           properties: {
             lessen: {
-              value : [
-                {datum: '2017-02-06', starttijd: "10:00", eindtijd: "12:30", les: "TICT-V1OODC-15_2016", docent: "peter.schuler@hu.nl", locatie: "DL200-3.91 (52)", klas: "TICT-SIE-V1D"},
-                {datum: '2017-02-06', starttijd: "10:00", eindtijd: "12:30", les: "TICT-V1OODC-15_2016", docent: "peter.schuler@hu.nl", locatie: "DL200-3.91 (52)", klas: "TICT-SIE-V1D"},
-                {datum: '2017-02-03', starttijd: "10:00", eindtijd: "12:30", les: "TICT-V1OODC-15_2016", docent: "peter.schuler@hu.nl", locatie: "DL200-3.91 (52)", klas: "TICT-SIE-V1D"},
-                {datum: '2017-02-06', starttijd: "10:00", eindtijd: "12:30", les: "TICT-V1OODC-15_2016", docent: "peter.schuler@hu.nl", locatie: "DL200-3.91 (52)", klas: "TICT-SIE-V1D"},
-                {datum: '2017-02-06', starttijd: "10:00", eindtijd: "12:30", les: "TICT-V1OODC-15_2016", docent: "peter.schuler@hu.nl", locatie: "DL200-3.91 (52)", klas: "TICT-SIE-V1D"}
-
-
-               ]
-             }
+              type: Array,
+             },
+             c_username: {
+ 	            type: String,
+ 	         },
+ 	         c_rol:{
+ 	        	 type: String
+ 	         },
+ 	         c_visible: {
+	            type: Boolean,                                      /* true when element is the active visible item */
+	            value: false,
+	            observer: '_initializing',                          /* wordt ook aangeroepen bijwisseling van true naar false.
+	                                                                   regel in de functie dat er niets gebeurd
+	                                                                   als c_visible false is */
+	         },
            },
 
           _go_home: function() {
@@ -85,9 +113,50 @@
                                                           // door de two way binding in <app-route> en <app-location>
                                                           // zal ook de url echt wijzigen
            },
+           
+           _initializing : function() {
+	        	if (this.c_visible) {                                 // zodra zichtbaar geworden moet er wat worden gedaan
+	            	if (this.c_rol=="docent") {                        // voor docenten
+	                  this._rooster_ophalen_docent_request_handler();    //    haal info op van server
+	                } else if(this.c_rol=="student"){                     //voor studenten
+	                  this._rooster_ophalen_klas_request_handler();       
+	                }/* else {
+	                	var lToast = this.$.toast_invalid_aanroep;        // na handmatige url wijziging zonder login terug naar home page
+		                 lToast.open(); 									// meldt ongeldige aanroep
+	                }*/
+	        	}
+	        },
 
-          
+	        _rooster_ophalen_docent_request_handler: function(){
+	        	console.log("_rooster_ophalen_docent_request_handler rol" + this.c_rol);
+	        	this.$.ajax_rooster_ophalen_docent.contentType="application/json";
+	        	this.$.ajax_rooster_ophalen_docent.body={
+	        		"username": this.c_username,
+	        	}
+	        	this.$.ajax_rooster_ophalen_docent.generateRequest();
+	        },
+	        
+	        _rooster_ophalen_docent_response_handler: function(request){
+	        	console.log("_rooster_ophalen_docent_response_handler aantal lessen=" + request.detail.response.length);
+	        	this.lessen = request.detail.response;
+	        },
+	        
+	        _rooster_ophalen_klas_request_handler: function(){
+	        	console.log("_rooster_ophalen_klas_request_handler rol" + this.c_rol);
+	        	this.$.ajax_rooster_ophalen_klas.contentType="application/json";
+	        	this.$.ajax_rooster_ophalen_klas.body={
+	        		"username": this.c_username,
+	        	}
+	        	this.$.ajax_rooster_ophalen_klas.generateRequest();
+	        },
+	        
+	        _rooster_ophalen_klas_response_handler: function(request){
+	        	console.log("_rooster_ophalen_klas_response_handler aantal lessen=" + request.detail.response.length);
+	        	this.lessen = request.detail.response;
+	        	console.log(this.lessen);
+	        },
       });
+  })();   
   </script>
     </dom-module>
 </body>

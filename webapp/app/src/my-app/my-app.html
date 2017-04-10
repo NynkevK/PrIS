@@ -245,7 +245,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               	   title="Rooster"
               	   element$="my-absentie">
                    <paper-material elevation="1">
-                     <my-absentie></my-absentie>
+                     <my-absentie
+                     	c_visible="[[_are_strings_equal(_ar_page, 'absentie')]]"
+                     	c_rol="[[_rol]]"
+                     	c_username="[[_username]]"></my-absentie>
                    </paper-material>
           </section>
 
