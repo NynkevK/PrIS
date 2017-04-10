@@ -151,17 +151,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>(test) Instellen systeemdatum</span>
           </a> -->
 
-          <a name="absentie" href$="[[_c_baseURL]]absentie" >
+          <a name="absentie" href$="[[_c_baseURL]]absentie" verborgen$="[[_are_strings_equal(_rol, 'undefined')]]">
             <iron-icon icon="event"></iron-icon>
             <span>Rooster</span>
           </a>
 
-          <a name="presentie" href$="[[_c_baseURL]]presentie" >
+          <a name="presentie" href$="[[_c_baseURL]]presentie" verborgen$="[[!_are_strings_equal(_rol, 'docent')]]">
             <iron-icon icon="check"></iron-icon>
             <span>Presentielijst</span>
           </a>
 
-          <a name="afmelden" href$="[[_c_baseURL]]afmelden" >
+          <a name="afmelden" href$="[[_c_baseURL]]afmelden" verborgen$="[[_are_strings_equal(_rol, 'undefined')]]">
           <iron-icon icon="block"></iron-icon>
           <span>Afmelden</span>
           </a>
