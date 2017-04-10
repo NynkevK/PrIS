@@ -157,7 +157,11 @@
 
         _ophalen_login_response_handler: function(request) {
           console.log("_ophalen_login_response_handler username="+this.username);
-          this.rol = request.detail.response.rol;
+          if (this.username == "student") {
+          this.rol = "student";
+          } else if (this.username == "docent") {
+          this.rol = "docent";
+          }
           this._password = "geheim"; /* om snel te kunnen testen is dit verwijderd */
           if (this.rol == "undefined") {                    //als aanloggen mislukt
             this.$.email_element.invalid = true;                // markeer email-element
