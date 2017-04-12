@@ -155,14 +155,6 @@
   </template>
 
   <script>
-  (function(){
-	  'use strict';
-      /* _xxxx private              : geen external data binding      - geen notify
-         _c_xx private constant     : geen external binding, constant - geen notify
-         c_xx  public constant      : one way external databinding [[c_xx]] - geen notify nodig
-         xxxx  public               : two way external databinding {{xxxx}} - notify nodig
-      */ 
-	  
 	  Polymer({
 	     is: 'my-afmelden',
 	
@@ -175,17 +167,33 @@
 	   	  },
 	   	  datum: {
 	   		  type: String,
-	   		  value: "2017-02-06"
 	   	  },
 	   	  start_tijd:{
 	   		type: String,
-	   		value:"12:00",
 	   	  },
 	   	  locatie: {
 	   		  type: String,
-	   		  value: "DL200-3.83 (30)",
 	   	  },
+	   	  c_visible: {
+            type: Boolean,                                      /* true when element is the active visible item */
+            value: false,
+            observer: 'ready',                          /* wordt ook aangeroepen bijwisseling van true naar false.
+                                                                   //regel in de functie dat er niets gebeurd
+                                                                  // als c_visible false is */
+          },
 	   	  
+	   	  
+	   	  
+	     },
+	     
+	     ready: function(){
+	    	 this.addEventListener("data-changed-afmelding", function(e) {
+	    		 console.log("doorgegeven data = " + e.detail);
+	    		 this.datum = e.detail.date;
+	    		 this.start_tijd = e.detail.start_time;
+	    		 this.locatie = e.detail.location;
+	    	 })
+	    	 console.log("data is nu:" + this.datum + " " + this.start_tijd)
 	     },
 	     
 	     _verzenden:function() {
@@ -262,6 +270,5 @@
 	
 	
 	   });
-	})();
   </script>
 </dom-module>

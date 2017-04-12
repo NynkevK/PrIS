@@ -15,6 +15,22 @@
 
       <template>
          <style>
+         	.drawer-list a[verborgen] {               /* toegevoegd tov PSK               */
+                        				        /* als verborgen true is dan ..     */
+        		display: none;							/* onzichtbaar maken                */
+      		}
+      		
+      		col[verborgen]{
+      			display: none;
+      		}
+      		
+      		th[verborgen]{
+      			display: none;
+      		}
+      		
+      		td[verborgen]{
+      			displat: none;
+      		}
          </style>
          <h1>Rooster</h1>
          <vaadin-grid >
@@ -27,7 +43,8 @@
                 <col name="docent" flex>
                 <col name="locatie" flex>
                 <col name="klas" flex>
-                <col name="toon lespresentie">
+                <col name="toon lespresentie" verborgen$="[[_are_strings_equal(c_rol, 'student')]]" flex>
+                <col name="afmelden" verborgen$="[[_are_strings_equal(c_rol, 'undefined')]]" flex>
                </colgroup>
                <thead>
                  <tr>
@@ -38,7 +55,8 @@
                    <th>docent</th>
                    <th>locatie</th>
                    <th>klas</th>
-                   <th>toon lespresentie</th>
+                   <th verborgen$="[[_are_strings_equal(c_rol, 'student')]]">toon lespresentie</th>
+                   <th verborgen$="[[_are_strings_equal(c_rol, 'undefined')]]">afmelden</th>
                  </tr>
                </thead>
                <tbody>
@@ -51,7 +69,8 @@
                      <td>[[item.teacher]]</td>
                      <td>[[item.location]]</td>
                      <td>[[item.class_code]]</td>
-                     <td><paper-icon-button  id="presentie_melden" icon="menu"></paper-icon-button></td>
+                     <td verborgen$="[[_are_strings_equal(c_rol, 'student')]]"><paper-icon-button verborgen$="[[_are_strings_equal(c_rol, 'student')]]" id="presentie_melden" icon="menu" on-click="presentie"></paper-icon-button></td>
+                     <td verborgen$="[[_are_strings_equal(c_rol, 'undefined')]]"><paper-icon-button verborgen$="[[_are_strings_equal(c_rol, 'undefined')]]" id="afmelden_knop" icon="menu" on-click="afmelden"></paper-icon-button></td>
                    </tr>
                  </template>
                </tbody>
@@ -68,7 +87,7 @@
 		<iron-ajax
 	      id="ajax_rooster_ophalen_docent"
 	      method="POST"
-	      url="/rooster/ophalen/klas"
+	      url="/rooster/ophalen/docent"
 	      handle-as="json"
 	      on-response="_rooster_ophalen_docent_response_handler">
 	    </iron-ajax>
@@ -114,6 +133,11 @@
                                                           // zal ook de url echt wijzigen
            },
            
+           _are_strings_equal: function(p_str1, p_str2) {
+     	      //console.log("_are_strings_equal: " + p_str1 + " met: " + p_str2);
+     	      return (p_str1==p_str2);
+     	    },
+           
            _initializing : function() {
 	        	if (this.c_visible) {                                 // zodra zichtbaar geworden moet er wat worden gedaan
 	            	if (this.c_rol=="docent") {                        // voor docenten
@@ -125,6 +149,35 @@
 		                 lToast.open(); 									// meldt ongeldige aanroep
 	                }*/
 	        	}
+	        },
+	        
+	        presentie: function(e){
+	        	var model = e.model;
+	        	console.log("Presentie voor:" + model.item.date + " " + model.item.location);
+	        	this.fire("data-changed", {date: model.item.date, start_time: model.item.start_time,
+	        								location: model.item.location});
+	        	this.naar_presentie();
+	        },
+	        
+	        naar_presentie: function(){
+	        	var lApp = document.querySelector('my-app');  //het polymer element <my-app>
+	            var lAppRouter = lApp.$.approuter;            // het html-element <app-route> met id=approuter
+	            lAppRouter.data={page: "les/presentie/"};  
+	        },
+	        
+	        afmelden: function(e){
+	        	var model = e.model;
+	        	console.log("afmelden voor:" + model.item.date + " " + model.item.location);
+	        	this.fire("data-changed-afmelding", {date: model.item.date, 
+											start_time: model.item.start_time,
+											location: model.item.location});
+	        	this.naar_afmelden();
+	        },
+	        
+	        naar_afmelden: function(){
+	        	var lApp = document.querySelector('my-app');  //het polymer element <my-app>
+	            var lAppRouter = lApp.$.approuter;            // het html-element <app-route> met id=approuter
+	            lAppRouter.data={page: "afmelden"};  
 	        },
 
 	        _rooster_ophalen_docent_request_handler: function(){

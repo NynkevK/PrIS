@@ -158,12 +158,12 @@ public class RoosterController implements Handler {
 			// voeg de info toe aan het json object
 			lJsonObjectBuilderVoorLes
 				.add("date", datumVanLesString)
-				.add("start-time", startTijdVanLesString)
-				.add("end-time", eindTijdVanLesString)
+				.add("start_time", startTijdVanLesString)
+				.add("end_time", eindTijdVanLesString)
 				.add("course", vakVanLes)
 				.add("teacher", gebruikersNaamVanDocent)
 				.add("location", locatieVanLes)
-				.add("class-code", klasCodeVanLes);
+				.add("class_code", klasCodeVanLes);
 			
 			// voeg het sson object van de les toe aan de json array
 			lJsonArrayBuilder.add(lJsonObjectBuilderVoorLes);
