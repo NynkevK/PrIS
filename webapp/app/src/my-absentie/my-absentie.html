@@ -154,8 +154,8 @@
 	        presentie: function(e){
 	        	var model = e.model;
 	        	console.log("Presentie voor:" + model.item.date + " " + model.item.location);
-	        	this.fire("data-changed", {date: model.item.date, start_time: model.item.start_time,
-	        								location: model.item.location});
+	        	this.fire("data-changed", {value:{date: model.item.date, start_time: model.item.start_time,
+	        								location: model.item.location}});
 	        	this.naar_presentie();
 	        },
 	        
@@ -168,9 +168,9 @@
 	        afmelden: function(e){
 	        	var model = e.model;
 	        	console.log("afmelden voor:" + model.item.date + " " + model.item.location);
-	        	this.fire("data-changed-afmelding", {date: model.item.date, 
+	        	this.fire("data-changed-afmelding", {value:{date: model.item.date, 
 											start_time: model.item.start_time,
-											location: model.item.location});
+											location: model.item.location}});
 	        	this.naar_afmelden();
 	        },
 	        

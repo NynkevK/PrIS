@@ -165,13 +165,13 @@
 	   	  radioSelected: {
 	   		  type: String,
 	   	  },
-	   	  datum: {
+	   	  c_datum: {
 	   		  type: String,
 	   	  },
-	   	  start_tijd:{
+	   	  c_start_tijd:{
 	   		type: String,
 	   	  },
-	   	  locatie: {
+	   	  c_locatie: {
 	   		  type: String,
 	   	  },
 	   	  c_visible: {
@@ -189,11 +189,11 @@
 	     ready: function(){
 	    	 this.addEventListener("data-changed-afmelding", function(e) {
 	    		 console.log("doorgegeven data = " + e.detail);
-	    		 this.datum = e.detail.date;
-	    		 this.start_tijd = e.detail.start_time;
-	    		 this.locatie = e.detail.location;
+	    		 this.c_datum = e.detail.date;
+	    		 this.c_start_tijd = e.detail.start_time;
+	    		 this.c_locatie = e.detail.location;
 	    	 })
-	    	 console.log("data is nu:" + this.datum + " " + this.start_tijd)
+	    	 console.log("data is nu:" + this.c_datum + " " + this.c_start_tijd)
 	     },
 	     
 	     _verzenden:function() {
