@@ -145,7 +145,7 @@ public class PresentieController implements Handler{
 				
 				lJsonObjectBuilderVoorAfmelding
 				.add("number", student.getStudentNummer())
-				.add("name", student.getVoornaam() + student.getVolledigeAchternaam())
+				.add("name", student.getVoornaam()+ " " + student.getVolledigeAchternaam())
 				.add("type", "aanwezig");
 				
 				lJsonArrayBuilder.add(lJsonObjectBuilderVoorAfmelding);
