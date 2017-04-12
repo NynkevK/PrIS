@@ -23,6 +23,10 @@ public class Afmelding {
 	
 	public String getReden(){	return reden;}
 	
+	public void setType(String lType){
+		type = lType;
+	}
+	
 	public String getType(){ return type;}
 	
 	public Persoon getAfgemelde(){ return deAfgemelde;}

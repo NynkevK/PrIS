@@ -22,7 +22,7 @@ public class Docent extends Persoon {
 		boolean gelijkenObjecten = false;
 		if  (obj instanceof Docent){
 			Docent andereDocent = (Docent) obj;
-			if (docentNummer == andereDocent.docentNummer && super.equals(obj)){		
+			if (docentNummer == andereDocent.docentNummer){		
 				gelijkenObjecten = true;
 			}
 		}

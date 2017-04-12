@@ -94,9 +94,12 @@ public class RoosterController implements Handler {
 		ArrayList<Les> roosterVanDocent = hetRooster.getLessenVanDocent(docent);
 		roosterVanDocent.sort(null);
 		
+		System.out.println(roosterVanDocent.size());
+		
 		JsonArrayBuilder lJsonArrayBuilder = Json.createArrayBuilder();
 		
 		for(Les lLes : roosterVanDocent){
+			
 			JsonObjectBuilder lJsonObjectBuilderVoorLes = Json.createObjectBuilder();
 
 			// verzamel de info van de les

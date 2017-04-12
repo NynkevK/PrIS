@@ -140,9 +140,9 @@
       raised>
         Verzenden
     </paper-button>
-    <paper-input class="my-input" id="datum_element" label="Datum" autofocus type="date" value="{{c_datum}}"></paper-input>
-	<paper-input class="my-input" label="Start-tijd" placeholder="12:00" value="{{c_start_tijd}}"></paper-input>
-	<paper-input class="my-input" label="Locatie" placeholder="DL200-3.91 (52)" value="{{c_locatie}}"></paper-input>
+    <paper-input class="my-input" id="datum_element" label="Datum" autofocus type="date" value="{{a_datum}}"></paper-input>
+	<paper-input class="my-input" label="Start-tijd" placeholder="12:00" value="{{a_start_tijd}}"></paper-input>
+	<paper-input class="my-input" label="Locatie" placeholder="DL200-3.91 (52)" value="{{a_locatie}}"></paper-input>
 	
     <iron-ajax
       id="ajax_afmelding_ophalen"
@@ -159,28 +159,31 @@
 	     is: 'my-afmelden',
 	
 	     properties: {
-	   	  c_username: {
+	   	  a_username: {
 	   		  type: String,
+	   		  notify: true,
 	   	  },
 	   	  radioSelected: {
 	   		  type: String,
 	   	  },
-	   	  c_datum: {
+	   	  a_datum: {
 	   		  type: String,
-	   		  observer: '_ding',
+	   		  notify: true
 	   	  },
-	   	  c_start_tijd:{
+	   	  a_start_tijd:{
 	   		type: String,
+	   		notify: true
 	   	  },
-	   	  c_locatie: {
+	   	  a_locatie: {
 	   		  type: String,
+	   		notify: true
 	   	  },
-	   	  c_visible: {
+	   	  a_visible: {
             type: Boolean,                                      /* true when element is the active visible item */
             value: false,
             observer: '_initializing',                          /* wordt ook aangeroepen bijwisseling van true naar false.
                                                                    //regel in de functie dat er niets gebeurd
-                                                                  // als c_visible false is */
+                                                                  // als a_visible false is */
           },
 	   	  
 	   	  
@@ -188,21 +191,11 @@
 	     },
 	     
 	     _ding: function(){
-	    	 console.log("datum is nu" + this.c_datum);
+	    	 console.log("datum is nu" + this.a_datum);
 	     },
 	     
 	     _initializing: function(){
-	    	 //console.log(c_datum + c_locatie);
-	     },
-	     
-	     ready: function(){
-	    	 this.addEventListener("data-changed-afmelding", function(e) {
-	    		 console.log("doorgegeven data = " + e.detail);
-	    		 this.c_datum = e.detail.date;
-	    		 this.c_start_tijd = e.detail.start_time;
-	    		 this.c_locatie = e.detail.location;
-	    	 })
-	    	 console.log("data is nu:" + this.c_datum + " " + this.c_start_tijd)
+	    	 //console.log(a_datum + a_locatie);
 	     },
 	     
 	     _verzenden:function() {
@@ -227,14 +220,14 @@
          },
 	     
 	     _afmelding_opslaan_request_handler: function(){
-	   	  console.log("_presentie_ophalen_request_handler user="+this.c_username);
+	   	  console.log("_presentie_ophalen_request_handler user="+this.a_username);
 	   	  this.$.ajax_afmelding_ophalen.contentType="application/json";
 	   	  this.$.ajax_afmelding_ophalen.body={
-	   			"username": this.c_username,
+	   			"username": this.a_username,
 	   			"non-appearance":{
-	   			"date":this.datum,
-	   	      	"start-time":this.start_tijd,
-	   	      	"location":this.locatie,
+	   			"date":this.a_datum,
+	   	      	"start-time":this.a_start_tijd,
+	   	      	"location":this.a_locatie,
 	   	      	"type":this.radioSelected,
 	   	      	"reason":this.reden}
 	   	  }
@@ -244,7 +237,7 @@
 	     },
 	   
 	     _afmelding_opslaan_response_handler: function(request){
-	   	  console.log(this.c_username + " afgemeld voor een les");
+	   	  console.log(this.a_username + " afgemeld voor een les");
 	   	  
 	     },
 	     
