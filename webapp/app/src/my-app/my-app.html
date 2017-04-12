@@ -247,8 +247,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                    <paper-material elevation="1">
                      <my-absentie
                      	c_visible="[[_are_strings_equal(_ar_page, 'absentie')]]"
-                     	c_rol="[[_rol]]"
-                     	c_username="[[_username]]"></my-absentie>
+                     	c_rol="{{_rol}}"
+                     	c_username="{{_username}}"
+                     	c_locatie="{{_locatie}}"
+             			c_start_tijd="{{_start_tijd}}"
+             			c_datum="{{_datum}}"></my-absentie>
                    </paper-material>
           </section>
 
@@ -266,8 +269,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           	<paper-material elevation="1">
           		<my-presentie
                 	c_visible="[[_are_strings_equal(_ar_page, 'les_presentie')]]"
-                	c_rol="[[_rol]]"
-                	c_username="[[_username]]">
+                	c_rol="{{_rol}}"
+                	c_username="{{_username}}">
                 </my-presentie>
           	</paper-material>
           </section>
@@ -276,8 +279,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   title="AFMELDEN"
                   element$="my-afmelden">
            <paper-material elevation="1">
-             <my-afmelden c_username="[[_username]]"
-             			c_visible="[[_are_strings_equal(_ar_page, 'afmelden')]]">
+             <my-afmelden c_username="{{_username}}"
+             			c_visible="[[_are_strings_equal(_ar_page, 'afmelden')]]"
+             			c_locatie="{{_locatie}}"
+             			c_start_tijd="{{_start_tijd}}"
+             			c_datum="{{_datum}}">
              </my-afmelden>
            </paper-material>
          </section>
@@ -404,6 +410,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           _username: {
             type: String,
           },
+          _datum: {
+        	  type: String,
+        	  value: "",
+          },
+          _start_tijd: {
+        	  type: String,
+        	  value: "",
+          },
+          _locatie:{
+        	  type: String,
+        	  value: "",
+          }
         },  //end of properties
 
         observers: [

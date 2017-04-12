@@ -123,6 +123,15 @@
 	                                                                   regel in de functie dat er niets gebeurd
 	                                                                   als c_visible false is */
 	         },
+	         c_datum: {
+	        	 type: String,
+	         },
+	         c_start_tijd:{
+	        	 type: String,
+	         },
+	         c_locatie: {
+	        	 type: String,
+	         },
            },
 
           _go_home: function() {
@@ -154,8 +163,11 @@
 	        presentie: function(e){
 	        	var model = e.model;
 	        	console.log("Presentie voor:" + model.item.date + " " + model.item.location);
-	        	this.fire("data-changed", {value:{date: model.item.date, start_time: model.item.start_time,
-	        								location: model.item.location}});
+	        	/*this.fire("data-changed", {date: model.item.date, start_time: model.item.start_time,
+	        								location: model.item.location});*/
+	        	this.c_datum = model.item.date;
+	        	this.c_start_tijd = model.item.start_time;
+	        	this.c_locatie = model.item.location;
 	        	this.naar_presentie();
 	        },
 	        
@@ -168,9 +180,12 @@
 	        afmelden: function(e){
 	        	var model = e.model;
 	        	console.log("afmelden voor:" + model.item.date + " " + model.item.location);
-	        	this.fire("data-changed-afmelding", {value:{date: model.item.date, 
+	        	/*this.fire("data-changed-afmelding", {date: model.item.date, 
 											start_time: model.item.start_time,
-											location: model.item.location}});
+											location: model.item.location});*/
+				this.c_datum = model.item.date;
+	        	this.c_start_tijd = model.item.start_time;
+	        	this.c_locatie = model.item.location;
 	        	this.naar_afmelden();
 	        },
 	        

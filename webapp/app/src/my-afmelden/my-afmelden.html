@@ -140,9 +140,9 @@
       raised>
         Verzenden
     </paper-button>
-    <paper-input class="my-input" id="datum_element" label="Datum" autofocus type="date" value="{{datum}}"></paper-input>
-	<paper-input class="my-input" label="Start-tijd" placeholder="12:00" value="{{start_tijd}}"></paper-input>
-	<paper-input class="my-input" label="Locatie" placeholder="DL200-3.91 (52)" value="{{locatie}}"></paper-input>
+    <paper-input class="my-input" id="datum_element" label="Datum" autofocus type="date" value="{{c_datum}}"></paper-input>
+	<paper-input class="my-input" label="Start-tijd" placeholder="12:00" value="{{c_start_tijd}}"></paper-input>
+	<paper-input class="my-input" label="Locatie" placeholder="DL200-3.91 (52)" value="{{c_locatie}}"></paper-input>
 	
     <iron-ajax
       id="ajax_afmelding_ophalen"
@@ -167,6 +167,7 @@
 	   	  },
 	   	  c_datum: {
 	   		  type: String,
+	   		  observer: '_ding',
 	   	  },
 	   	  c_start_tijd:{
 	   		type: String,
@@ -177,13 +178,21 @@
 	   	  c_visible: {
             type: Boolean,                                      /* true when element is the active visible item */
             value: false,
-            observer: 'ready',                          /* wordt ook aangeroepen bijwisseling van true naar false.
+            observer: '_initializing',                          /* wordt ook aangeroepen bijwisseling van true naar false.
                                                                    //regel in de functie dat er niets gebeurd
                                                                   // als c_visible false is */
           },
 	   	  
 	   	  
 	   	  
+	     },
+	     
+	     _ding: function(){
+	    	 console.log("datum is nu" + this.c_datum);
+	     },
+	     
+	     _initializing: function(){
+	    	 //console.log(c_datum + c_locatie);
 	     },
 	     
 	     ready: function(){
