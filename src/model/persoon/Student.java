@@ -45,7 +45,7 @@ public class Student extends Persoon implements Comparable<Student>{
 		boolean gelijkenObjecten = false;
 		if  (obj instanceof Student){
 			Student andereStudent = (Student) obj;
-			if (studentNummer == andereStudent.studentNummer &&  groepId == andereStudent.groepId && super.equals(obj)){
+			if (studentNummer == andereStudent.studentNummer &&  groepId == andereStudent.groepId){
 				gelijkenObjecten = true;
 			}
 		}

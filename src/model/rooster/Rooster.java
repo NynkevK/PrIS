@@ -45,7 +45,8 @@ public class Rooster {
 		ArrayList<Les> lessenVanKlas = new ArrayList<Les>();
 		
 			for (Les les : deLessen) {
-				if (les.getInfo().get(6).equals(klas)) {
+				Klas klasVanLes = (Klas)les.getInfo().get(6);
+				if (klasVanLes.equals(klas)) {
 					lessenVanKlas.add(les);
 				}
 		}
@@ -57,7 +58,8 @@ public class Rooster {
 		ArrayList<Les> lessenVanDocent = new ArrayList<Les>();
 		
 		for (Les les : deLessen) {
-			if (les.getInfo().get(5).equals(docent)) {
+			Docent docentVanLes = (Docent)les.getInfo().get(4);
+			if (docentVanLes.equals(docent)) {
 				lessenVanDocent.add(les);
 			}
 	}

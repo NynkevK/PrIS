@@ -118,8 +118,8 @@
   	(function(){
   		'use strict';
         /* _xxxx private              : geen external data binding      - geen notify
-           _c_xx private constant     : geen external binding, constant - geen notify
-           c_xx  public constant      : one way external databinding [[c_xx]] - geen notify nodig
+           _p_xx private constant     : geen external binding, constant - geen notify
+           p_xx  public constant      : one way external databinding [[p_xx]] - geen notify nodig
            xxxx  public               : two way external databinding {{xxxx}} - notify nodig
         */
 
@@ -127,34 +127,36 @@
         	is: 'my-presentie',
 
 	        properties: {
-	          _c_studenten: {
+	          _p_studenten: {
 	            type: Array,           /* array<student-info>: student-info = {id, firstName, lastName, sameGroup}
 											array is constant groepnr is changable */
 	          },
-	          c_rol: {
+	          p_rol: {
+	            type: String,
+	            notify: true,
+	          },
+	          p_username: {
 	            type: String,
 	          },
-	          c_username: {
-	            type: String,
-	          },
-	          c_visible: {
+	          p_visible: {
 	            type: Boolean,                                      /* true when element is the active visible item */
 	            value: false,
 	            observer: '_initializing',                          /* wordt ook aangeroepen bijwisseling van true naar false.
 	                                                                   regel in de functie dat er niets gebeurd
-	                                                                   als c_visible false is */
+	                                                                   als p_visible false is */
 	          },
-	          c_datum: {
+	          p_datum: {
 	        	  type: String,
-	        	  value: "2017-02-06",
+	        	  notify: true,
 	          },
-	          c_startTijd: {
+	          p_start_tijd: {
 	        	  type: String,
-	        	  value: "10:00"
+	        	  notify: true,
 	          },
-	          c_locatie: {
+	          p_locatie: {
 	        	  type: String,
-	        	  value: "DL200-3.91 (52)"
+	        	  notify: true,
+	        	  observer: '_initializing',
 	          }
 	        },
 
@@ -167,8 +169,8 @@
 	          },
 
 	        _initializing : function() {
-	        	if (this.c_visible) {                                 // zodra zichtbaar geworden moet er wat worden gedaan
-	            	if (this.c_rol=="docent") {                        // voor docenten
+	        	if (this.p_visible) {                                 // zodra zichtbaar geworden moet er wat worden gedaan
+	            	if (this.p_rol=="docent") {                        // voor docenten
 	                  this._presentie_ophalen_request_handler();    //    haal info op van server
 	                } else {                                            // na handmatige url wijziging zonder login
 	                  var lToast = this.$.toast_invalid_aanroep;        // meldt ongeldige aanroep
@@ -179,13 +181,14 @@
 	        },
 
 	        _presentie_ophalen_request_handler: function() {
-	      	  console.log("_presentie_ophalen_request_handler user="+this.c_username);
+	      	  console.log("_presentie_ophalen_request_handler user="+this.p_username+"location="+p_start_tijd);
 	      	  this.$.ajax_presentie_ophalen.contentType="application/json";
 	      	  this.$.ajax_presentie_ophalen.body={
-	      			"date":this.c_datum,
-	   	      		"start-time":this.c_startTijd,
-	   	      		"location":this.c_locatie
+	      			"date":this.p_datum,
+	   	      		"start-time":this.p_start_tijd,
+	   	      		"location":this.p_locatie
 	      	  }
+	      	  
 	      	  this.$.ajax_presentie_ophalen.generateRequest();
 	        },
 
@@ -195,12 +198,12 @@
 	       },
 
 	       _presentie_opslaan_requesthandler: function(){
-	    	   console.log("_medestudenten_opslaan_request_handler user="+this.c_username);
+	    	   console.log("_medestudenten_opslaan_request_handler user="+this.p_username);
 	    	   this.$.ajax_presentie_opslaan.contentType="application/json";
 	    	   this.$.ajax_presentie_opslaan.body={
-	    			"date":this.c_datum,
-	   	      		"start-time":this.c_startTijd,
-	   	      		"location":this.c_locatie,
+	    			"date":this.p_datum,
+	   	      		"start-time":this.p_start_tijd,
+	   	      		"location":this.p_locatie,
 	   	      		"non-appearance":this.studenten
 	    	   };
 	    	   this.$.ajax_presentie_opslaan.generateRequest();

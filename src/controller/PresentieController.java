@@ -184,16 +184,33 @@ public class PresentieController implements Handler{
 			// les ophalen waarvoor afgemeld is
 			System.out.println(lDatumVanAfmelding.toString() + lStartTijdVanAfmelding.toString() + lLocatie_afmelding);
 			Les lLesVan_afmelding = hetRooster.getLes(lDatumVanAfmelding, lStartTijdVanAfmelding, lLocatie_afmelding);
+			String lTypeAfmelding = lAfmelding_Object.getString("type");
+			String lRedenAfmelding = lAfmelding_Object.getString("reason");
 			if(lLesVan_afmelding == null){
 				System.out.println("les niet gevonden");
 			} else {
 				System.out.println("les gevonden");
 			}
 			
-			
-			// reden en type van de afmelding uit de request halen
-			String lTypeAfmelding = lAfmelding_Object.getString("type");
-			String lRedenAfmelding = lAfmelding_Object.getString("reason");
+			if(lLesVan_afmelding.getPresentieBijgewerkt() == true){
+				ArrayList<Afmelding> afmeldingenVanLes = lLesVan_afmelding.getAfmeldingen();
+				for(Afmelding afmelding : afmeldingenVanLes){
+					if(afmelding.getAfgemelde().equals(persoonVanAfmelding)){
+						afmelding.setReden(lRedenAfmelding);
+						afmelding.setType(lTypeAfmelding);
+						break;
+					}
+				}
+			} else {
+				Klas klasVanLes = lLesVan_afmelding.getKlas();
+				ArrayList<Student> studentenVanKlas = klasVanLes.getStudenten();
+				for(Student student : studentenVanKlas){
+					if(student.equals(persoonVanAfmelding)){
+						lLesVan_afmelding.voegAfmeldingMetRedeToe(lTypeAfmelding, lRedenAfmelding, persoonVanAfmelding);
+					}
+					lLesVan_afmelding.voegAfmeldingToe(student, "aanwezig");
+				}
+			}
 			
 			// afmelding toevoegen aan les
 			lLesVan_afmelding.voegAfmeldingMetRedeToe(lTypeAfmelding, lRedenAfmelding, persoonVanAfmelding);

@@ -140,9 +140,9 @@
       raised>
         Verzenden
     </paper-button>
-    <paper-input class="my-input" id="datum_element" label="Datum" autofocus type="date" value="{{datum}}"></paper-input>
-	<paper-input class="my-input" label="Start-tijd" placeholder="12:00" value="{{start_tijd}}"></paper-input>
-	<paper-input class="my-input" label="Locatie" placeholder="DL200-3.91 (52)" value="{{locatie}}"></paper-input>
+    <paper-input class="my-input" id="datum_element" label="Datum" autofocus type="date" value="{{a_datum}}"></paper-input>
+	<paper-input class="my-input" label="Start-tijd" placeholder="12:00" value="{{a_start_tijd}}"></paper-input>
+	<paper-input class="my-input" label="Locatie" placeholder="DL200-3.91 (52)" value="{{a_locatie}}"></paper-input>
 	
     <iron-ajax
       id="ajax_afmelding_ophalen"
@@ -155,37 +155,47 @@
   </template>
 
   <script>
-  (function(){
-	  'use strict';
-      /* _xxxx private              : geen external data binding      - geen notify
-         _c_xx private constant     : geen external binding, constant - geen notify
-         c_xx  public constant      : one way external databinding [[c_xx]] - geen notify nodig
-         xxxx  public               : two way external databinding {{xxxx}} - notify nodig
-      */ 
-	  
 	  Polymer({
 	     is: 'my-afmelden',
 	
 	     properties: {
-	   	  c_username: {
+	   	  a_username: {
 	   		  type: String,
+	   		  notify: true,
 	   	  },
 	   	  radioSelected: {
 	   		  type: String,
 	   	  },
-	   	  datum: {
+	   	  a_datum: {
 	   		  type: String,
-	   		  value: "2017-02-06"
+	   		  notify: true
 	   	  },
-	   	  start_tijd:{
+	   	  a_start_tijd:{
 	   		type: String,
-	   		value:"12:00",
+	   		notify: true
 	   	  },
-	   	  locatie: {
+	   	  a_locatie: {
 	   		  type: String,
-	   		  value: "DL200-3.83 (30)",
+	   		notify: true
 	   	  },
+	   	  a_visible: {
+            type: Boolean,                                      /* true when element is the active visible item */
+            value: false,
+            observer: '_initializing',                          /* wordt ook aangeroepen bijwisseling van true naar false.
+                                                                   //regel in de functie dat er niets gebeurd
+                                                                  // als a_visible false is */
+          },
 	   	  
+	   	  
+	   	  
+	     },
+	     
+	     _ding: function(){
+	    	 console.log("datum is nu" + this.a_datum);
+	     },
+	     
+	     _initializing: function(){
+	    	 //console.log(a_datum + a_locatie);
 	     },
 	     
 	     _verzenden:function() {
@@ -210,14 +220,14 @@
          },
 	     
 	     _afmelding_opslaan_request_handler: function(){
-	   	  console.log("_presentie_ophalen_request_handler user="+this.c_username);
+	   	  console.log("_presentie_ophalen_request_handler user="+this.a_username);
 	   	  this.$.ajax_afmelding_ophalen.contentType="application/json";
 	   	  this.$.ajax_afmelding_ophalen.body={
-	   			"username": this.c_username,
+	   			"username": this.a_username,
 	   			"non-appearance":{
-	   			"date":this.datum,
-	   	      	"start-time":this.start_tijd,
-	   	      	"location":this.locatie,
+	   			"date":this.a_datum,
+	   	      	"start-time":this.a_start_tijd,
+	   	      	"location":this.a_locatie,
 	   	      	"type":this.radioSelected,
 	   	      	"reason":this.reden}
 	   	  }
@@ -227,7 +237,7 @@
 	     },
 	   
 	     _afmelding_opslaan_response_handler: function(request){
-	   	  console.log(this.c_username + " afgemeld voor een les");
+	   	  console.log(this.a_username + " afgemeld voor een les");
 	   	  
 	     },
 	     
@@ -262,6 +272,5 @@
 	
 	
 	   });
-	})();
   </script>
 </dom-module>
