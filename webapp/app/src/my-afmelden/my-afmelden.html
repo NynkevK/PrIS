@@ -110,22 +110,6 @@
 	  <input placeholder="Type hier je reden" value="{{reden::input}}" rows="3"></input>
 	</paper-input-container>
     </p>
-    <paper-dropdown-menu label="LES">
-	  <paper-listbox class="dropdown-content" selected="1">
-	    <paper-item>TCIF-V1AUI-15_2016</paper-item>
-	    <paper-item>TICT-V1GP-15_2016</paper-item>
-	    <paper-item>TICT-V1OODC-15_2016</paper-item>
-	  </paper-listbox>
-	</paper-dropdown-menu>
-
-	 <form>
-	 </br>
-		<paper-radio-group selected="{{radioSelected}}">
-		  <paper-radio-button name="aanwezig">Aanwezig</paper-radio-button>
-		  <paper-radio-button name="afwezig">Afwezig</paper-radio-button>
-		  <paper-radio-button name="afgemeld">Afgemeld</paper-radio-button>
-		</paper-radio-group>
-     </form>
       <paper-button
       id="annuleren_button"
       class="my-button"
@@ -140,9 +124,6 @@
       raised>
         Verzenden
     </paper-button>
-    <paper-input class="my-input" id="datum_element" label="Datum" autofocus type="date" value="{{a_datum}}"></paper-input>
-	<paper-input class="my-input" label="Start-tijd" placeholder="12:00" value="{{a_start_tijd}}"></paper-input>
-	<paper-input class="my-input" label="Locatie" placeholder="DL200-3.91 (52)" value="{{a_locatie}}"></paper-input>
 	
     <iron-ajax
       id="ajax_afmelding_ophalen"
@@ -203,14 +184,6 @@
       		var lToast = this.$.toast_mislukt_oproep1;        // meldt ongeldige aanroep
             lToast.open(); 
             }
-        else if (this.radioSelected == null) {
-            var lToast = this.$.toast_mislukt_oproep2;        // meldt ongeldige aanroep
-            lToast.open(); 
-            }
-        else if (this.starttijd == "" || this.locatie == "" || this.datum == "") {
-            var lToast = this.$.toast_mislukt_oproep3;        // meldt ongeldige aanroep
-            lToast.open(); 
-            }
         else {
         	this._afmelding_opslaan_request_handler();
             var lToast = this.$.toast_gelukt_oproep;        // meldt ongeldige aanroep
@@ -228,7 +201,7 @@
 	   			"date":this.a_datum,
 	   	      	"start-time":this.a_start_tijd,
 	   	      	"location":this.a_locatie,
-	   	      	"type":this.radioSelected,
+	   	      	"type":"afgemeld",
 	   	      	"reason":this.reden}
 	   	  }
 	   	  console.log(this.datum)

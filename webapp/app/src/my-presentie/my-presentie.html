@@ -181,7 +181,7 @@
 	        },
 
 	        _presentie_ophalen_request_handler: function() {
-	      	  console.log("_presentie_ophalen_request_handler user="+this.p_username+"location="+p_start_tijd);
+	      	  console.log("_presentie_ophalen_request_handler user="+this.p_username+"location="+this.p_start_tijd);
 	      	  this.$.ajax_presentie_ophalen.contentType="application/json";
 	      	  this.$.ajax_presentie_ophalen.body={
 	      			"date":this.p_datum,
